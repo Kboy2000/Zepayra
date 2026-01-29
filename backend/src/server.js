@@ -6,7 +6,6 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const connectDB = require('./config/database');
 const errorHandler = require('./middleware/errorHandler');
-const logger = require('./utils/logger');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -22,12 +21,15 @@ const app = express();
 connectDB();
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+}));
 
-// CORS configuration
+// CORS configuration - Allow all origins in production for now
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: true,
     credentials: true,
   })
 );
@@ -59,6 +61,14 @@ app.get('/health', (req, res) => {
   });
 });
 
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'ZEPAYRA API is running',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/wallet', walletRoutes);
@@ -77,17 +87,23 @@ app.use((req, res) => {
 // Error handler (must be last)
 app.use(errorHandler);
 
-// Start server
-const PORT = process.env.PORT || 5000;
+// Export for Vercel serverless
+module.exports = app;
 
-app.listen(PORT, () => {
-  logger.success(`🚀 ZEPAYRA Server running on port ${PORT}`);
-  logger.info(`📍 Environment: ${process.env.NODE_ENV}`);
-  logger.info(`🌐 Frontend URL: ${process.env.FRONTEND_URL}`);
-});
+// Start server only if not in Vercel environment
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  
+  app.listen(PORT, () => {
+    console.log(`🚀 ZEPAYRA Server running on port ${PORT}`);
+    console.log(`📍 Environment: ${process.env.NODE_ENV}`);
+  });
+}
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
-  logger.error(`Unhandled Rejection: ${err.message}`);
-  process.exit(1);
+  console.error(`Unhandled Rejection: ${err.message}`);
+  if (process.env.NODE_ENV !== 'production') {
+    process.exit(1);
+  }
 });
