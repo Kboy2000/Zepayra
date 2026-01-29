@@ -1,0 +1,46 @@
+.card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-medium);
+  transition: all var(--transition-base);
+}
+
+/* Glassmorphism variant */
+.card-glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Padding variants */
+.card-padding-none {
+  padding: 0;
+}
+
+.card-padding-small {
+  padding: var(--spacing-lg);
+}
+
+.card-padding-medium {
+  padding: var(--spacing-xl);
+}
+
+.card-padding-large {
+  padding: var(--spacing-2xl);
+}
+
+/* Hover effect */
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-large);
+}
+
+/* Clickable */
+.card-clickable {
+  cursor: pointer;
+}
+
+.card-clickable:active {
+  transform: translateY(-2px);
+}

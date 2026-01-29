@@ -1,0 +1,112 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #EEF2FF 0%, #F3E8FF 100%);
+  padding: var(--spacing-lg);
+}
+
+.login-container {
+  width: 100%;
+  max-width: 480px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: var(--spacing-3xl);
+}
+
+.login-logo {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+  letter-spacing: -1px;
+}
+
+.login-tagline {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.login-card {
+  animation: slideUp var(--transition-base);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.login-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-md) 0;
+  text-align: center;
+}
+
+.login-error-banner {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.login-forgot-link {
+  align-self: flex-end;
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  margin-top: calc(var(--spacing-md) * -1);
+}
+
+.login-forgot-link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+.login-signup-text {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.login-signup-link {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.login-signup-link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .login-page {
+    padding: var(--spacing-md);
+  }
+
+  .login-header {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .login-logo {
+    font-size: var(--font-size-2xl);
+  }
+
+  .login-tagline {
+    font-size: var(--font-size-sm);
+  }
+}
