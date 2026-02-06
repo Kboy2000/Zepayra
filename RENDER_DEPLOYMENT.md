@@ -87,7 +87,7 @@ Fill in these settings:
 |-------|-------|
 | **Name** | `zepayra-backend` |
 | **Region** | Choose closest to you |
-| **Root Directory** | `backend` |
+| **Root Directory** | `server` |
 | **Environment** | `Node` |
 | **Build Command** | `npm install` |
 | **Start Command** | `npm start` |
@@ -145,7 +145,7 @@ You should see:
 | Field | Value |
 |-------|-------|
 | **Name** | `zepayra-frontend` |
-| **Root Directory** | `frontend` |
+| **Root Directory** | `client` |
 | **Build Command** | `npm install && npm run build` |
 | **Publish Directory** | `dist` |
 

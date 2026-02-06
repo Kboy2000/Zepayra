@@ -32,7 +32,7 @@ Total time: ~20 minutes
 
 ```
 ZEPAYRA/
-├── frontend/          # Vite + React application
+├── client/            # Vite + React application
 │   ├── src/
 │   │   ├── components/
 │   │   ├── pages/
@@ -41,7 +41,7 @@ ZEPAYRA/
 │   │   └── utils/
 │   └── package.json
 │
-├── backend/           # Express + MongoDB API
+├── server/            # Express + MongoDB API
 │   ├── src/
 │   │   ├── config/
 │   │   ├── controllers/

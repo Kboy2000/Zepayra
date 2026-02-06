@@ -1,5 +1,5 @@
-const app = require('../backend/src/app');
-const connectDB = require('../backend/src/config/database');
+const app = require('./src/app');
+const connectDB = require('./src/config/database');
 
 // Connect to database
 let dbConnected = false;
