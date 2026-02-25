@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="frontend/public/logo.png" alt="Zepayra Logo" width="200" />
+</p>
+
 # Zepayra Documentation
 
 🚀 **Frontend:** [https://zepayra-frontend.onrender.com](https://zepayra-frontend.onrender.com)  

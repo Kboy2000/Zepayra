@@ -15,6 +15,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { Button, Input, Card } from '../components/common';
 import { isValidEmail, isValidNigerianPhone, validatePassword } from '../utils/validators';
+import logo from '../assets/images/logo.png';
 import './Register.css';
 
 const Register = () => {

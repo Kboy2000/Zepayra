@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="frontend/public/logo.png" alt="Zepayra Logo" width="200" />
+</p>
+
 # Zepayra Documentation
 
 **Version:** 2.0.0  

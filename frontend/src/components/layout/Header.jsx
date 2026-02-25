@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Star, Bell, LogOut, Settings, User, LayoutDashboard, Palette } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { ThemeToggle } from '../common';
+import logo from '../../assets/images/logo.png';
 import './Header.css';
 
 const Header = () => {
@@ -45,7 +46,7 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-logo" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
-        ZEPAYRA
+        <img src={logo} alt="ZEPAYRA" style={{ height: '32px', display: 'block' }} />
       </div>
 
       <div className="header-actions">
