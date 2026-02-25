@@ -12,6 +12,8 @@ const getApiBaseUrl = () => {
   if (url && !url.endsWith('/api') && !url.endsWith('/api/')) {
     url = url.endsWith('/') ? `${url}api` : `${url}/api`;
   }
+  
+  console.log('📡 API Base URL:', url);
   return url;
 };
 
