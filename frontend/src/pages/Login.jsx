@@ -4,7 +4,7 @@ import { Mail, Lock, Eye, EyeOff, LogIn, ShieldCheck, ArrowRight } from 'lucide-
 import { Card, Button, Input } from '../components/common';
 import { useAuth } from '../context/AuthContext';
 import { isValidEmail } from '../utils/validators';
-import './Auth.css';
+import './Login.css';
 
 const Login = () => {
   const navigate = useNavigate();
