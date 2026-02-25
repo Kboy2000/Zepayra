@@ -46,7 +46,7 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-logo" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
-        <img src={logo} alt="ZEPAYRA" style={{ height: '40px', display: 'block' }} />
+        <img src={logo} alt="ZEPAYRA" style={{ height: '80px', display: 'block' }} />
       </div>
 
       <div className="header-actions">
