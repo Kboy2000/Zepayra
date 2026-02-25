@@ -73,7 +73,7 @@ const Login = () => {
     <div className="login-page">
       <div className="login-container">
         <div className="login-header">
-          <h1 className="login-logo">ZEPAYRA</h1>
+          <img src={logo} alt="ZEPAYRA" className="login-logo-img" style={{ height: '48px', marginBottom: '1rem' }} />
           <p className="login-tagline">Your Digital Wallet, Simplified</p>
         </div>
 

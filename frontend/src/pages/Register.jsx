@@ -108,7 +108,7 @@ const Register = () => {
     <div className="register-page">
       <div className="register-container">
         <div className="register-header">
-          <h1 className="register-logo">ZEPAYRA</h1>
+          <img src={logo} alt="ZEPAYRA" className="register-logo-img" style={{ height: '48px', marginBottom: '1rem' }} />
           <p className="register-tagline">Join thousands of Nigerians managing their finances smarter</p>
         </div>
 
