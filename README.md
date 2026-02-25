@@ -1,6 +1,7 @@
-# ZEPAYRA - Fintech Application
+# Zepayra Documentation
 
-🚀 **Live Site:** Deploy to Render (see instructions below)  
+🚀 **Frontend:** [https://zepayra-frontend.onrender.com](https://zepayra-frontend.onrender.com)  
+🚀 **Backend:** [https://zepayra-backend.onrender.com](https://zepayra-backend.onrender.com)  
 📦 **Repository:** https://github.com/Kboy2000/Zepayra.git
 
 ## Quick Start - Deploy to Render
