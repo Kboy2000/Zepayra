@@ -275,3 +275,44 @@ Your assignment requirements are fully met:
 - ✅ UI using Vite React
 - ✅ Backend using Express
 - ✅ Database as MongoDB
+
+---
+
+## Step 6: Docker Deployment (Alternative Process) 🐳
+
+If you prefer to deploy using Docker and the Render Blueprint, follow these steps:
+
+### 6.1 Preparation
+
+1. Ensure `Dockerfile` exists in both `backend` and `frontend` directories.
+2. Ensure `render.yaml` exists in the root directory.
+3. Push all changes to your GitHub repository.
+
+### 6.2 Deploying the Blueprint
+
+1. Go to [dashboard.render.com](https://dashboard.render.com).
+2. Click **"New +"** → **"Blueprint"**.
+3. Select your **ZEPAYRA** repository.
+4. Render will automatically detect the `render.yaml` file.
+5. In the configuration page:
+   - **Service Group Name**: `zepayra-stack` (or any name you like).
+   - **MONGODB_URI**: Paste your MongoDB Atlas connection string.
+6. Click **"Apply"**.
+
+### 6.3 What happens next?
+
+- Render will build two Docker images (one for backend, one for frontend).
+- It will automatically link the frontend to the backend using internal networking.
+- You will get two URLs: one for the backend and one for the frontend.
+
+### 6.4 Local Verification (Optional)
+
+If you have Docker installed locally, you can test the entire stack before pushing:
+
+```bash
+# Start the application
+docker compose up --build
+```
+
+- **Frontend**: http://localhost:5173
+- **Backend**: http://localhost:5000

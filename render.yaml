@@ -1,3 +1,32 @@
-{
-  "version": 2
-}
+services:
+  - type: web
+    name: zepayra-backend
+    env: docker
+    dockerContext: ./backend
+    dockerfilePath: Dockerfile
+    plan: free
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_URL
+        fromService:
+          name: zepayra-frontend
+          type: web
+          property: host
+
+  - type: web
+    name: zepayra-frontend
+    env: docker
+    dockerContext: ./frontend
+    dockerfilePath: Dockerfile
+    plan: free
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: zepayra-backend
+          type: web
+          property: host
