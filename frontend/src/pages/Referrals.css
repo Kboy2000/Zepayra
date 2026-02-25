@@ -1,6 +1,6 @@
 .referrals-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  background: var(--bg-secondary);
 }
 
 .referrals-container {
@@ -21,7 +21,7 @@
 }
 
 .referrals-subtitle {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   font-size: 1rem;
 }
 
@@ -460,7 +460,7 @@
 }
 
 .step-content p {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   font-size: 0.9rem;
   line-height: 1.5;
 }
