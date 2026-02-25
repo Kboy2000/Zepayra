@@ -3,6 +3,11 @@ import axios from 'axios';
 const getApiBaseUrl = () => {
   let url = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   
+  // If it's a bare Render hostname (e.g. 'zepayra-backend'), convert to public URL
+  if (url && !url.includes('.') && !url.includes('localhost') && !url.startsWith('http')) {
+    url = `${url}.onrender.com`;
+  }
+
   // If the URL doesn't have a protocol, add https://
   if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
     url = `https://${url}`;
