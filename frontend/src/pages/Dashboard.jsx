@@ -34,6 +34,7 @@ import {
 import walletService from '../services/walletService';
 import transactionService from '../services/transactionService';
 import analyticsService from '../services/analyticsService';
+import { useAuth } from '../context/AuthContext';
 import { formatCurrency } from '../utils/formatters';
 import './Dashboard.css';
 

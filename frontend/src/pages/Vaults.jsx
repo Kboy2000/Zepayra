@@ -146,7 +146,10 @@ const Vaults = () => {
               >
                 <div className="vault-item-header">
                   <div className="vault-icon-box" style={{ color: vault.color, backgroundColor: `${vault.color}15` }}>
-                    <vault.icon size={22} />
+                    {(() => {
+                      const Icon = vault.icon;
+                      return <Icon size={22} />;
+                    })()}
                   </div>
                   <div className="vault-item-meta">
                     <h4>{vault.name}</h4>
@@ -278,7 +281,10 @@ const Vaults = () => {
               <div className="detail-header" style={{ backgroundColor: selectedVault.color }}>
                  <button className="close-btn" onClick={() => setShowDetailModal(false)}><X size={20} /></button>
                  <div className="header-content">
-                    <selectedVault.icon size={48} color="white" />
+                    {(() => {
+                      const Icon = selectedVault.icon;
+                      return <Icon size={48} color="white" />;
+                    })()}
                     <h2>{selectedVault.name}</h2>
                     <span className="badge">{selectedVault.category}</span>
                  </div>
