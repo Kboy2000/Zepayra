@@ -19,7 +19,7 @@ services:
         fromService:
           name: zepayra-frontend
           type: web
-          property: url
+          property: host
 
   - type: web
     name: zepayra-frontend
@@ -33,4 +33,4 @@ services:
         fromService:
           name: zepayra-backend
           type: web
-          property: url
+          property: host
