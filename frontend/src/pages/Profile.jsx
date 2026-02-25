@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { User, Mail, Phone, Calendar, ArrowLeft, ShieldCheck, Edit3 } from 'lucide-react';
 import { Card, Button } from '../components/common';
 import { useAuth } from '../context/AuthContext';
 import './Profile.css';
@@ -10,12 +10,11 @@ const Profile = () => {
 
   return (
     <div className="profile-page">
-      <Header />
-
       <div className="profile-container">
         <div className="profile-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <h1 className="profile-title">My Profile</h1>
           <p className="profile-subtitle">View and manage your personal information</p>

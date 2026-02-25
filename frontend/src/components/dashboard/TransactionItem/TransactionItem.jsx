@@ -1,4 +1,15 @@
-import { formatCurrency, formatDate } from '../../../utils/formatters';
+import { 
+  Phone, 
+  Wifi, 
+  Zap, 
+  Tv, 
+  GraduationCap, 
+  PlusCircle, 
+  CreditCard,
+  Target
+} from 'lucide-react';
+import { Card } from '../../common';
+import { formatCurrency, formatDateTime } from '../../../utils/formatters';
 import './TransactionItem.css';
 
 const TransactionItem = ({ transaction, onClick }) => {
@@ -10,25 +21,27 @@ const TransactionItem = ({ transaction, onClick }) => {
   }[transaction.status];
 
   const categoryIcons = {
-    airtime: '📞',
-    data: '📡',
-    electricity: '⚡',
-    tv: '📺',
-    education: '📚',
-    funding: '💰',
+    airtime: Phone,
+    data: Wifi,
+    electricity: Zap,
+    tv: Tv,
+    education: GraduationCap,
+    funding: PlusCircle,
   };
+
+  const Icon = categoryIcons[transaction.category] || CreditCard;
 
   return (
     <div className="transaction-item" onClick={onClick}>
       <div 
         className={`transaction-icon ${isCredit ? 'transaction-icon-credit' : 'transaction-icon-debit'}`}
       >
-        {categoryIcons[transaction.category] || '💳'}
+        <Icon size={20} />
       </div>
 
       <div className="transaction-details">
         <span className="transaction-description">{transaction.description}</span>
-        <span className="transaction-date">{formatDate(transaction.createdAt)}</span>
+        <span className="transaction-date">{formatDateTime(transaction.createdAt)}</span>
       </div>
 
       <div className="transaction-right">

@@ -1,6 +1,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { 
+  Plus, 
+  Search, 
+  Phone, 
+  Wifi, 
+  Zap, 
+  Tv, 
+  Star, 
+  Trash2,
+  Users,
+  Briefcase,
+  ArrowLeft,
+  Smartphone
+} from 'lucide-react';
 import { Card, Button } from '../components/common';
 import './Beneficiaries.css';
 
@@ -21,17 +34,17 @@ const Beneficiaries = () => {
   ]);
 
   const serviceTypes = [
-    { id: 'all', name: 'All', icon: '📱', count: beneficiaries.length },
-    { id: 'airtime', name: 'Airtime', icon: '📞', count: beneficiaries.filter(b => b.serviceType === 'airtime').length },
-    { id: 'data', name: 'Data', icon: '📡', count: beneficiaries.filter(b => b.serviceType === 'data').length },
-    { id: 'electricity', name: 'Electricity', icon: '⚡', count: beneficiaries.filter(b => b.serviceType === 'electricity').length },
-    { id: 'tv', name: 'Cable TV', icon: '📺', count: beneficiaries.filter(b => b.serviceType === 'tv').length },
+    { id: 'all', name: 'All', icon: Smartphone, count: beneficiaries.length },
+    { id: 'airtime', name: 'Airtime', icon: Phone, count: beneficiaries.filter(b => b.serviceType === 'airtime').length },
+    { id: 'data', name: 'Data', icon: Wifi, count: beneficiaries.filter(b => b.serviceType === 'data').length },
+    { id: 'electricity', name: 'Electricity', icon: Zap, count: beneficiaries.filter(b => b.serviceType === 'electricity').length },
+    { id: 'tv', name: 'Cable TV', icon: Tv, count: beneficiaries.filter(b => b.serviceType === 'tv').length },
   ];
 
   const groups = [
-    { id: 'family', name: 'Family', icon: '👨‍👩‍👧‍👦', color: '#10B981' },
-    { id: 'friends', name: 'Friends', icon: '👥', color: '#6366F1' },
-    { id: 'work', name: 'Work', icon: '💼', color: '#F59E0B' },
+    { id: 'family', name: 'Family', icon: Users, color: '#10B981' },
+    { id: 'friends', name: 'Friends', icon: Users, color: '#6366F1' },
+    { id: 'work', name: 'Work', icon: Briefcase, color: '#F59E0B' },
   ];
 
   const filteredBeneficiaries = beneficiaries.filter(b => {
@@ -47,23 +60,21 @@ const Beneficiaries = () => {
   const favoriteBeneficiaries = beneficiaries.filter(b => b.isFavorite);
 
   const handleQuickSend = (beneficiary) => {
-    // Navigate to appropriate service page with pre-filled data
-    switch (beneficiary.serviceType) {
-      case 'airtime':
-        navigate('/airtime', { state: { phone: beneficiary.phone } });
-        break;
-      case 'data':
-        navigate('/data', { state: { phone: beneficiary.phone } });
-        break;
-      case 'electricity':
-        navigate('/electricity', { state: { meterNumber: beneficiary.meterNumber } });
-        break;
-      case 'tv':
-        navigate('/tv', { state: { smartCardNumber: beneficiary.smartCardNumber } });
-        break;
-      default:
-        break;
-    }
+    const paths = {
+      airtime: '/airtime',
+      data: '/data',
+      electricity: '/electricity',
+      tv: '/tv'
+    };
+    
+    const state = {
+      airtime: { phone: beneficiary.phone },
+      data: { phone: beneficiary.phone },
+      electricity: { meterNumber: beneficiary.meterNumber },
+      tv: { smartCardNumber: beneficiary.smartCardNumber }
+    };
+
+    navigate(paths[beneficiary.serviceType], { state: state[beneficiary.serviceType] });
   };
 
   const toggleFavorite = (id) => {
@@ -78,14 +89,15 @@ const Beneficiaries = () => {
     }
   };
 
-  const getServiceIcon = (serviceType) => {
-    const service = serviceTypes.find(s => s.id === serviceType);
-    return service?.icon || '📱';
+  const ServiceIcon = ({ type, size = 16 }) => {
+    const service = serviceTypes.find(s => s.id === type);
+    const Icon = service?.icon || Smartphone;
+    return <Icon size={size} />;
   };
 
-  const getGroupColor = (group) => {
-    const groupData = groups.find(g => g.id === group);
-    return groupData?.color || '#6366F1';
+  const getGroupColor = (groupId) => {
+    const group = groups.find(g => g.id === groupId);
+    return group?.color || '#6366F1';
   };
 
   const getInitials = (name) => {
@@ -94,87 +106,70 @@ const Beneficiaries = () => {
 
   return (
     <div className="beneficiaries-page">
-      <Header />
-
       <div className="beneficiaries-container">
         <div className="beneficiaries-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
-          <h1 className="beneficiaries-title">Beneficiaries</h1>
-          <p className="beneficiaries-subtitle">Quick access to your frequent recipients</p>
+          <div className="header-text">
+            <h1 className="beneficiaries-title">Beneficiaries</h1>
+            <p className="beneficiaries-subtitle">Manage your frequent recipients</p>
+          </div>
+          <Button 
+            primary 
+            className="add-beneficiary-btn"
+            onClick={() => setShowAddModal(true)}
+          >
+            <Plus size={20} />
+            <span>Add New</span>
+          </Button>
         </div>
 
-        {/* Search and Add */}
-        <Card glass padding="medium" className="search-card">
-          <div className="search-row">
-            <div className="search-wrapper">
-              <span className="search-icon">🔍</span>
-              <input
-                type="text"
-                placeholder="Search beneficiaries..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="search-input"
-              />
-            </div>
-            <button className="add-button" onClick={() => setShowAddModal(true)}>
-              + Add Beneficiary
-            </button>
-          </div>
-        </Card>
+        {/* Search */}
+        <div className="search-bar">
+          <Search className="search-icon" size={20} />
+          <input 
+            type="text" 
+            placeholder="Search by name or number..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
 
-        {/* Service Type Tabs */}
-        <div className="service-tabs">
-          {serviceTypes.map(service => (
-            <button
-              key={service.id}
-              className={`service-tab ${activeTab === service.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(service.id)}
-            >
-              <span className="tab-icon">{service.icon}</span>
-              <span className="tab-name">{service.name}</span>
-              <span className="tab-count">{service.count}</span>
-            </button>
-          ))}
+        {/* Service Type Filters */}
+        <div className="service-filters">
+          {serviceTypes.map(type => {
+            const Icon = type.icon;
+            return (
+              <button
+                key={type.id}
+                className={`filter-chip ${activeTab === type.id ? 'active' : ''}`}
+                onClick={() => setActiveTab(type.id)}
+              >
+                <Icon size={16} />
+                <span>{type.name}</span>
+                <span className="count">{type.count}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Favorites */}
-        {favoriteBeneficiaries.length > 0 && (
+        {favoriteBeneficiaries.length > 0 && searchQuery === '' && (
           <div className="favorites-section">
-            <h3 className="section-title">⭐ Favorites</h3>
-            <div className="beneficiaries-grid">
+            <h3 className="section-title">
+              <Star size={18} className="text-warning fill-warning" />
+              <span>Favorites</span>
+            </h3>
+            <div className="favorites-scroll">
               {favoriteBeneficiaries.map(beneficiary => (
-                <Card key={beneficiary.id} glass className="beneficiary-card favorite">
-                  <div className="beneficiary-header">
-                    <div className="beneficiary-avatar" style={{ background: getGroupColor(beneficiary.group) }}>
-                      {getInitials(beneficiary.name)}
-                    </div>
-                    <button 
-                      className="favorite-button active"
-                      onClick={() => toggleFavorite(beneficiary.id)}
-                    >
-                      ⭐
-                    </button>
+                <div key={beneficiary.id} className="favorite-item" onClick={() => handleQuickSend(beneficiary)}>
+                  <div className="favorite-avatar" style={{ background: getGroupColor(beneficiary.group) }}>
+                    {getInitials(beneficiary.name)}
                   </div>
-                  <div className="beneficiary-info">
-                    <h4>{beneficiary.name}</h4>
-                    <p className="beneficiary-detail">
-                      {beneficiary.phone || beneficiary.meterNumber || beneficiary.smartCardNumber}
-                    </p>
-                    <div className="beneficiary-meta">
-                      <span className="service-badge">
-                        {getServiceIcon(beneficiary.serviceType)} {beneficiary.serviceType}
-                      </span>
-                      <span className="transaction-count">{beneficiary.transactionCount} txns</span>
-                    </div>
-                  </div>
-                  <div className="beneficiary-actions">
-                    <button className="quick-send-button" onClick={() => handleQuickSend(beneficiary)}>
-                      Quick Send
-                    </button>
-                  </div>
-                </Card>
+                  <span className="favorite-name">{beneficiary.name}</span>
+                </div>
               ))}
             </div>
           </div>
@@ -196,7 +191,7 @@ const Beneficiaries = () => {
                       className={`favorite-button ${beneficiary.isFavorite ? 'active' : ''}`}
                       onClick={() => toggleFavorite(beneficiary.id)}
                     >
-                      {beneficiary.isFavorite ? '⭐' : '☆'}
+                      <Star size={18} fill={beneficiary.isFavorite ? "#F59E0B" : "none"} color={beneficiary.isFavorite ? "#F59E0B" : "currentColor"} />
                     </button>
                   </div>
                   <div className="beneficiary-info">
@@ -206,7 +201,8 @@ const Beneficiaries = () => {
                     </p>
                     <div className="beneficiary-meta">
                       <span className="service-badge">
-                        {getServiceIcon(beneficiary.serviceType)} {beneficiary.serviceType}
+                        <ServiceIcon type={beneficiary.serviceType} />
+                        <span style={{ textTransform: 'capitalize' }}>{beneficiary.serviceType}</span>
                       </span>
                       <span className="transaction-count">{beneficiary.transactionCount} txns</span>
                     </div>
@@ -216,7 +212,7 @@ const Beneficiaries = () => {
                       Quick Send
                     </button>
                     <button className="delete-button" onClick={() => deleteBeneficiary(beneficiary.id)}>
-                      🗑️
+                      <Trash2 size={18} />
                     </button>
                   </div>
                 </Card>
@@ -224,38 +220,22 @@ const Beneficiaries = () => {
             </div>
           ) : (
             <Card glass padding="large" className="empty-state">
-              <span className="empty-icon">👥</span>
+              <span className="empty-icon">
+                <Users size={48} strokeWidth={1.5} />
+              </span>
               <h3>No beneficiaries found</h3>
               <p>
                 {searchQuery 
                   ? 'Try adjusting your search' 
                   : 'Add beneficiaries to send money quickly'}
               </p>
-              <button className="add-beneficiary-button" onClick={() => setShowAddModal(true)}>
-                + Add Your First Beneficiary
-              </button>
+              <Button primary onClick={() => setShowAddModal(true)}>
+                <Plus size={20} />
+                <span>Add Your First Beneficiary</span>
+              </Button>
             </Card>
           )}
         </div>
-
-        {/* Groups Section */}
-        <Card glass padding="large" className="groups-card">
-          <h3 className="section-title">Groups</h3>
-          <div className="groups-grid">
-            {groups.map(group => {
-              const count = beneficiaries.filter(b => b.group === group.id).length;
-              return (
-                <div key={group.id} className="group-item" style={{ borderColor: group.color }}>
-                  <span className="group-icon">{group.icon}</span>
-                  <div className="group-info">
-                    <h4>{group.name}</h4>
-                    <p>{count} beneficiaries</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </Card>
       </div>
     </div>
   );

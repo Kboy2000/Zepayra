@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { 
+  ArrowLeft, 
+  Search, 
+  TrendingUp, 
+  CheckCircle2, 
+  Clock, 
+  XCircle, 
+  Download,
+  Inbox,
+  Filter
+} from 'lucide-react';
 import { Card } from '../components/common';
 import { TransactionItem } from '../components/dashboard';
 import transactionService from '../services/transactionService';
@@ -177,7 +187,7 @@ const Transactions = () => {
   if (loading) {
     return (
       <div className="transactions-page">
-        <Header />
+        
         <div className="transactions-loading">
           <div className="spinner"></div>
           <p>Loading transactions...</p>
@@ -188,12 +198,11 @@ const Transactions = () => {
 
   return (
     <div className="transactions-page">
-      <Header />
-
       <div className="transactions-container">
         <div className="transactions-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <h1 className="transactions-title">Transactions</h1>
           <p className="transactions-subtitle">View and manage your transaction history</p>
@@ -203,28 +212,28 @@ const Transactions = () => {
         {stats && (
           <div className="transactions-stats">
             <Card glass className="stat-card">
-              <div className="stat-icon">💰</div>
+              <div className="stat-icon"><TrendingUp size={24} /></div>
               <div className="stat-content">
                 <span className="stat-label">Total Spent</span>
                 <span className="stat-value">{formatCurrency(stats.totalSpent || 0)}</span>
               </div>
             </Card>
             <Card glass className="stat-card">
-              <div className="stat-icon">✅</div>
+              <div className="stat-icon successful"><CheckCircle2 size={24} /></div>
               <div className="stat-content">
                 <span className="stat-label">Successful</span>
                 <span className="stat-value">{stats.successfulCount || 0}</span>
               </div>
             </Card>
             <Card glass className="stat-card">
-              <div className="stat-icon">⏳</div>
+              <div className="stat-icon pending"><Clock size={24} /></div>
               <div className="stat-content">
                 <span className="stat-label">Pending</span>
                 <span className="stat-value">{stats.pendingCount || 0}</span>
               </div>
             </Card>
             <Card glass className="stat-card">
-              <div className="stat-icon">❌</div>
+              <div className="stat-icon failed"><XCircle size={24} /></div>
               <div className="stat-content">
                 <span className="stat-label">Failed</span>
                 <span className="stat-value">{stats.failedCount || 0}</span>
@@ -245,7 +254,7 @@ const Transactions = () => {
                 onChange={handleSearchChange}
                 className="search-input"
               />
-              <span className="search-icon">🔍</span>
+              <span className="search-icon"><Search size={18} /></span>
             </div>
 
             {/* Status Filter */}
@@ -312,7 +321,8 @@ const Transactions = () => {
 
             {/* Export Button */}
             <button className="export-button" onClick={handleExport}>
-              📥 Export
+              <Download size={18} />
+              <span>Export</span>
             </button>
           </div>
         </Card>
@@ -336,7 +346,7 @@ const Transactions = () => {
             ))
           ) : (
             <Card glass padding="large" className="empty-state">
-              <span className="empty-icon">📭</span>
+              <div className="empty-icon"><Inbox size={48} /></div>
               <h3>No transactions found</h3>
               <p>
                 {filters.searchQuery || filters.status !== 'all' || filters.serviceType !== 'all' || filters.dateRange !== 'all'

@@ -1,6 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { 
+  Settings, 
+  Shield, 
+  Bell, 
+  ArrowLeft, 
+  User, 
+  Lock, 
+  Mail, 
+  Phone, 
+  Check, 
+  ShieldCheck,
+  CreditCard
+} from 'lucide-react';
 import { Card, Button, Input } from '../components/common';
 import './AccountSettings.css';
 
@@ -10,12 +22,11 @@ const AccountSettings = () => {
 
   return (
     <div className="settings-page">
-      <Header />
-
       <div className="settings-container">
         <div className="settings-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <h1 className="settings-title">Account Settings</h1>
           <p className="settings-subtitle">Manage your account preferences and security</p>
@@ -27,21 +38,21 @@ const AccountSettings = () => {
               className={`sidebar-tab ${activeTab === 'general' ? 'active' : ''}`}
               onClick={() => setActiveTab('general')}
             >
-              <span className="tab-icon">⚙️</span>
+              <span className="tab-icon"><Settings size={18} /></span>
               <span>General</span>
             </button>
             <button 
               className={`sidebar-tab ${activeTab === 'security' ? 'active' : ''}`}
               onClick={() => setActiveTab('security')}
             >
-              <span className="tab-icon">🔒</span>
+              <span className="tab-icon"><Lock size={18} /></span>
               <span>Security</span>
             </button>
             <button 
               className={`sidebar-tab ${activeTab === 'notifications' ? 'active' : ''}`}
               onClick={() => setActiveTab('notifications')}
             >
-              <span className="tab-icon">🔔</span>
+              <span className="tab-icon"><Bell size={18} /></span>
               <span>Notifications</span>
             </button>
           </div>

@@ -1,6 +1,20 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { 
+  Bell, 
+  ArrowLeft, 
+  Check, 
+  Trash2, 
+  Mail, 
+  CreditCard, 
+  Gift, 
+  Lock, 
+  Users, 
+  FileText, 
+  Settings,
+  ShieldCheck,
+  AlertCircle
+} from 'lucide-react';
 import { Card } from '../components/common';
 import { formatDateTime } from '../utils/formatters';
 import './Notifications.css';
@@ -10,7 +24,7 @@ const Notifications = () => {
   
   const [activeFilter, setActiveFilter] = useState('all');
 
-  // Mock notifications data
+  // Mock notifications data (rest of the data remains the same)
   const [notifications, setNotifications] = useState([
     { id: 1, type: 'transaction', title: 'Transaction Successful', message: 'Your airtime purchase of ₦500 was successful', isRead: false, createdAt: '2024-01-12T10:30:00', data: { transactionId: '123' } },
     { id: 2, type: 'promotion', title: 'Special Offer!', message: 'Get 10% bonus on all data purchases today only!', isRead: false, createdAt: '2024-01-12T09:00:00' },
@@ -22,13 +36,13 @@ const Notifications = () => {
   ]);
 
   const notificationTypes = [
-    { id: 'all', name: 'All', icon: '📬', count: notifications.length },
-    { id: 'transaction', name: 'Transactions', icon: '💳', count: notifications.filter(n => n.type === 'transaction').length },
-    { id: 'promotion', name: 'Promotions', icon: '🎁', count: notifications.filter(n => n.type === 'promotion').length },
-    { id: 'security', name: 'Security', icon: '🔒', count: notifications.filter(n => n.type === 'security').length },
-    { id: 'referral', name: 'Referrals', icon: '👥', count: notifications.filter(n => n.type === 'referral').length },
-    { id: 'bill', name: 'Bills', icon: '📄', count: notifications.filter(n => n.type === 'bill').length },
-    { id: 'system', name: 'System', icon: '⚙️', count: notifications.filter(n => n.type === 'system').length },
+    { id: 'all', name: 'All', icon: Mail, count: notifications.length },
+    { id: 'transaction', name: 'Transactions', icon: CreditCard, count: notifications.filter(n => n.type === 'transaction').length },
+    { id: 'promotion', name: 'Promotions', icon: Gift, count: notifications.filter(n => n.type === 'promotion').length },
+    { id: 'security', name: 'Security', icon: ShieldCheck, count: notifications.filter(n => n.type === 'security').length },
+    { id: 'referral', name: 'Referrals', icon: Users, count: notifications.filter(n => n.type === 'referral').length },
+    { id: 'bill', name: 'Bills', icon: FileText, count: notifications.filter(n => n.type === 'bill').length },
+    { id: 'system', name: 'System', icon: Settings, count: notifications.filter(n => n.type === 'system').length },
   ];
 
   const filteredNotifications = activeFilter === 'all' 
@@ -67,8 +81,15 @@ const Notifications = () => {
   };
 
   const getNotificationIcon = (type) => {
-    const typeData = notificationTypes.find(t => t.id === type);
-    return typeData?.icon || '📬';
+    switch (type) {
+      case 'transaction': return CreditCard;
+      case 'promotion': return Gift;
+      case 'security': return ShieldCheck;
+      case 'referral': return Users;
+      case 'bill': return FileText;
+      case 'system': return Settings;
+      default: return Mail;
+    }
   };
 
   const getNotificationColor = (type) => {
@@ -92,12 +113,11 @@ const Notifications = () => {
 
   return (
     <div className="notifications-page">
-      <Header />
-
       <div className="notifications-container">
         <div className="notifications-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <div className="header-content">
             <h1 className="notifications-title">Notifications</h1>
@@ -114,67 +134,77 @@ const Notifications = () => {
 
         {/* Filter Tabs */}
         <div className="notification-filters">
-          {notificationTypes.map(type => (
-            <button
-              key={type.id}
-              className={`filter-tab ${activeFilter === type.id ? 'active' : ''}`}
-              onClick={() => setActiveFilter(type.id)}
-            >
-              <span className="filter-icon">{type.icon}</span>
-              <span className="filter-name">{type.name}</span>
-              {type.count > 0 && (
-                <span className="filter-count">{type.count}</span>
-              )}
-            </button>
-          ))}
+          {notificationTypes.map(type => {
+            const Icon = type.icon;
+            return (
+              <button
+                key={type.id}
+                className={`filter-tab ${activeFilter === type.id ? 'active' : ''}`}
+                onClick={() => setActiveFilter(type.id)}
+              >
+                <span className="filter-icon">
+                  <Icon size={18} />
+                </span>
+                <span className="filter-name">{type.name}</span>
+                {type.count > 0 && (
+                  <span className="filter-count">{type.count}</span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* Notifications List */}
         <div className="notifications-list">
           {filteredNotifications.length > 0 ? (
-            filteredNotifications.map(notification => (
-              <Card 
-                key={notification.id} 
-                glass 
-                className={`notification-card ${!notification.isRead ? 'unread' : ''}`}
-                onClick={() => handleNotificationClick(notification)}
-              >
-                <div className="notification-indicator" style={{ backgroundColor: getNotificationColor(notification.type) }}></div>
-                <div className="notification-icon" style={{ backgroundColor: `${getNotificationColor(notification.type)}20` }}>
-                  {getNotificationIcon(notification.type)}
-                </div>
-                <div className="notification-content">
-                  <h4 className="notification-title">{notification.title}</h4>
-                  <p className="notification-message">{notification.message}</p>
-                  <span className="notification-time">{formatDateTime(notification.createdAt)}</span>
-                </div>
-                <div className="notification-actions">
-                  {!notification.isRead && (
+            filteredNotifications.map(notification => {
+              const Icon = getNotificationIcon(notification.type);
+              return (
+                <Card 
+                  key={notification.id} 
+                  glass 
+                  className={`notification-card ${!notification.isRead ? 'unread' : ''}`}
+                  onClick={() => handleNotificationClick(notification)}
+                >
+                  <div className="notification-indicator" style={{ backgroundColor: getNotificationColor(notification.type) }}></div>
+                  <div className="notification-icon" style={{ backgroundColor: `${getNotificationColor(notification.type)}20`, color: getNotificationColor(notification.type) }}>
+                    <Icon size={24} />
+                  </div>
+                  <div className="notification-content">
+                    <h4 className="notification-title">{notification.title}</h4>
+                    <p className="notification-message">{notification.message}</p>
+                    <span className="notification-time">{formatDateTime(notification.createdAt)}</span>
+                  </div>
+                  <div className="notification-actions">
+                    {!notification.isRead && (
+                      <button 
+                        className="mark-read-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleMarkAsRead(notification.id);
+                        }}
+                      >
+                        <Check size={18} />
+                      </button>
+                    )}
                     <button 
-                      className="mark-read-button"
+                      className="delete-button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleMarkAsRead(notification.id);
+                        handleDelete(notification.id);
                       }}
                     >
-                      ✓
+                      <Trash2 size={18} />
                     </button>
-                  )}
-                  <button 
-                    className="delete-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(notification.id);
-                    }}
-                  >
-                    🗑️
-                  </button>
-                </div>
-              </Card>
-            ))
+                  </div>
+                </Card>
+              );
+            })
           ) : (
             <Card glass padding="large" className="empty-state">
-              <span className="empty-icon">🔔</span>
+              <span className="empty-icon">
+                <Bell size={48} strokeWidth={1.5} />
+              </span>
               <h3>No notifications</h3>
               <p>
                 {activeFilter === 'all' 
@@ -193,7 +223,9 @@ const Notifications = () => {
           <div className="preferences-list">
             <div className="preference-item">
               <div className="preference-info">
-                <span className="preference-icon">💳</span>
+                <span className="preference-icon">
+                  <CreditCard size={20} />
+                </span>
                 <div>
                   <h4>Transaction Notifications</h4>
                   <p>Get notified about all your transactions</p>
@@ -207,7 +239,9 @@ const Notifications = () => {
 
             <div className="preference-item">
               <div className="preference-info">
-                <span className="preference-icon">🎁</span>
+                <span className="preference-icon">
+                  <Gift size={20} />
+                </span>
                 <div>
                   <h4>Promotional Offers</h4>
                   <p>Receive special offers and promotions</p>
@@ -221,7 +255,9 @@ const Notifications = () => {
 
             <div className="preference-item">
               <div className="preference-info">
-                <span className="preference-icon">🔒</span>
+                <span className="preference-icon">
+                  <ShieldCheck size={20} />
+                </span>
                 <div>
                   <h4>Security Alerts</h4>
                   <p>Important security notifications</p>
@@ -235,7 +271,9 @@ const Notifications = () => {
 
             <div className="preference-item">
               <div className="preference-info">
-                <span className="preference-icon">📄</span>
+                <span className="preference-icon">
+                  <FileText size={20} />
+                </span>
                 <div>
                   <h4>Bill Reminders</h4>
                   <p>Reminders for upcoming bills</p>

@@ -1,6 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { 
+  ArrowLeft, 
+  Building2, 
+  Plus, 
+  X, 
+  Check, 
+  ShieldCheck, 
+  Wallet,
+  Building,
+  CreditCard,
+  History
+} from 'lucide-react';
 import { Card, Button, Input, PinInput } from '../components/common';
 import walletService from '../services/walletService';
 import { formatCurrency } from '../utils/formatters';
@@ -180,12 +191,11 @@ const Withdraw = () => {
 
   return (
     <div className="withdraw-page">
-      <Header />
-
       <div className="withdraw-container">
         <div className="withdraw-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <h1 className="withdraw-title">Withdraw Funds</h1>
           <p className="withdraw-subtitle">Transfer money from your wallet to your bank account</p>
@@ -193,8 +203,11 @@ const Withdraw = () => {
 
         {/* Current Balance */}
         <Card glass className="balance-display">
-          <span className="balance-label">Available Balance</span>
-          <span className="balance-amount">{formatCurrency(balance)}</span>
+          <div className="balance-icon"><Wallet size={24} /></div>
+          <div className="balance-info">
+            <span className="balance-label">Available Balance</span>
+            <span className="balance-amount">{formatCurrency(balance)}</span>
+          </div>
         </Card>
 
         {/* Bank Accounts */}
@@ -205,7 +218,17 @@ const Withdraw = () => {
               className="add-account-button"
               onClick={() => setShowAddAccount(!showAddAccount)}
             >
-              {showAddAccount ? '✕ Cancel' : '+ Add Account'}
+              {showAddAccount ? (
+                <>
+                  <X size={16} />
+                  <span>Cancel</span>
+                </>
+              ) : (
+                <>
+                  <Plus size={16} />
+                  <span>Add Account</span>
+                </>
+              )}
             </button>
           </div>
 
@@ -254,7 +277,7 @@ const Withdraw = () => {
                 className={`bank-account-card ${selectedAccount === account.id ? 'selected' : ''}`}
                 onClick={() => setSelectedAccount(account.id)}
               >
-                <div className="account-icon">🏦</div>
+                <div className="account-icon"><Building2 size={24} /></div>
                 <div className="account-details">
                   <h4>{account.bankName}</h4>
                   <p>{account.accountNumber}</p>

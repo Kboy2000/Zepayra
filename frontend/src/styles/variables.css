@@ -113,3 +113,23 @@
   --z-popover: 1060;
   --z-tooltip: 1070;
 }
+
+/* Dark Theme Overrides */
+:root[data-theme='dark'] {
+  --bg-primary: #0F172A;
+  --bg-secondary: #020617;
+  --bg-tertiary: #1E293B;
+  --bg-glass: rgba(15, 23, 42, 0.7);
+  
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-tertiary: #64748B;
+  
+  --border-light: rgba(255, 255, 255, 0.05);
+  --border-medium: rgba(255, 255, 255, 0.1);
+  --border-dark: rgba(255, 255, 255, 0.2);
+
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-large: 0 16px 48px rgba(0, 0, 0, 0.5);
+}

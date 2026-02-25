@@ -1,6 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { 
+  ArrowLeft, 
+  Search, 
+  Smartphone, 
+  CreditCard, 
+  Check, 
+  Clock, 
+  User, 
+  Star,
+  Users,
+  Briefcase,
+  ExternalLink,
+  Contact2
+} from 'lucide-react';
 import { Button, Input, Card } from '../components/common';
 import serviceService from '../services/serviceService';
 import transactionService from '../services/transactionService';
@@ -212,12 +225,13 @@ const Airtime = () => {
 
   return (
     <div className="airtime-page">
-      <Header />
+      
 
       <div className="airtime-container">
         <div className="airtime-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <h1 className="airtime-title">Buy Airtime</h1>
           <p className="airtime-subtitle">Instant airtime recharge for all networks</p>
@@ -235,7 +249,7 @@ const Airtime = () => {
                   onClick={() => selectRecipient(recipient)}
                 >
                   <div className="recent-avatar">
-                    {recipient.recipientName?.[0] || '📱'}
+                    {recipient.recipientName?.[0] || <Smartphone size={18} />}
                   </div>
                   <span className="recent-name">
                     {recipient.recipientName || recipient.recipientPhone}
@@ -288,7 +302,7 @@ const Airtime = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   error={errors.phone}
-                  icon="📱"
+                  icon={<Smartphone size={18} />}
                   required
                 />
                 <button
@@ -296,7 +310,8 @@ const Airtime = () => {
                   className="contacts-button"
                   onClick={() => alert('Contact picker coming soon!')}
                 >
-                  📇 Contacts
+                  <Contact2 size={18} />
+                  <span>Contacts</span>
                 </button>
               </div>
             </div>
@@ -327,7 +342,7 @@ const Airtime = () => {
               value={formData.amount}
               onChange={handleChange}
               error={errors.amount}
-              icon="₦"
+              icon={<Wallet size={18} />}
               min="50"
               max="1000000"
               required
@@ -374,7 +389,8 @@ const Airtime = () => {
                 className="manage-link"
                 onClick={() => navigate('/beneficiaries', { state: { serviceType: 'airtime' } })}
               >
-                Manage →
+                <span>Manage</span>
+                <ExternalLink size={14} />
               </button>
             </div>
             <div className="beneficiaries-grid">
@@ -385,11 +401,11 @@ const Airtime = () => {
                   onClick={() => selectRecipient(beneficiary)}
                 >
                   <div className="beneficiary-avatar">
-                    {beneficiary.name?.[0] || '👤'}
+                    {beneficiary.name?.[0] || <User size={18} />}
                   </div>
                   <span className="beneficiary-name">{beneficiary.name}</span>
                   <span className="beneficiary-phone">{beneficiary.phone}</span>
-                  {beneficiary.isFavorite && <span className="favorite-badge">⭐</span>}
+                  {beneficiary.isFavorite && <span className="favorite-badge"><Star size={12} fill="currentColor" /></span>}
                 </div>
               ))}
             </div>

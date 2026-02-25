@@ -1,5 +1,17 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  User,
+  Mail,
+  Phone,
+  Lock,
+  Eye,
+  EyeOff,
+  UserPlus,
+  ShieldCheck,
+  Smartphone,
+  CheckCircle2
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Button, Input, Card } from '../components/common';
 import { isValidEmail, isValidNigerianPhone, validatePassword } from '../utils/validators';
@@ -134,50 +146,50 @@ const Register = () => {
             </div>
 
             <Input
+              label="Email Address"
               type="email"
               name="email"
-              label="Email Address"
-              placeholder="john@example.com"
+              placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
               error={errors.email}
-              icon="📧"
+              icon={<Mail size={18} />}
               required
             />
 
             <Input
+              label="Phone Number"
               type="tel"
               name="phone"
-              label="Phone Number"
-              placeholder="08012345678"
+              placeholder="Enter phone number"
               value={formData.phone}
               onChange={handleChange}
               error={errors.phone}
-              icon="🇳🇬"
+              icon={<Smartphone size={18} />}
               required
             />
 
             <Input
+              label="Password"
               type="password"
               name="password"
-              label="Password"
-              placeholder="Minimum 6 characters"
+              placeholder="Create strong password"
               value={formData.password}
               onChange={handleChange}
               error={errors.password}
-              icon="🔒"
+              icon={<Lock size={18} />}
               required
             />
 
             <Input
+              label="Confirm Password"
               type="password"
               name="confirmPassword"
-              label="Confirm Password"
-              placeholder="Re-enter your password"
+              placeholder="Confirm your password"
               value={formData.confirmPassword}
               onChange={handleChange}
               error={errors.confirmPassword}
-              icon="🔒"
+              icon={<Lock size={18} />}
               required
             />
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Plus, ArrowUpRight, Eye, EyeOff, CreditCard } from 'lucide-react';
 import { formatCurrency } from '../../../utils/formatters';
 import './BalanceCard.css';
 
@@ -23,7 +24,7 @@ const BalanceCard = ({ balance, onAddMoney, onWithdraw }) => {
           onClick={toggleVisibility}
           aria-label={isVisible ? 'Hide balance' : 'Show balance'}
         >
-          {isVisible ? '👁️' : '👁️‍🗨️'}
+          {isVisible ? <Eye size={18} /> : <EyeOff size={18} />}
         </button>
       </div>
 
@@ -40,11 +41,15 @@ const BalanceCard = ({ balance, onAddMoney, onWithdraw }) => {
 
       <div className="balance-card-actions">
         <button className="balance-action-btn balance-action-primary" onClick={onAddMoney}>
-          <span className="balance-action-icon">💰</span>
+          <span className="balance-action-icon">
+            <Plus size={18} strokeWidth={3} />
+          </span>
           Add Money
         </button>
         <button className="balance-action-btn balance-action-secondary" onClick={onWithdraw}>
-          <span className="balance-action-icon">💸</span>
+          <span className="balance-action-icon">
+            <ArrowUpRight size={18} strokeWidth={2.5} />
+          </span>
           Withdraw
         </button>
       </div>

@@ -1,6 +1,24 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { 
+  Search, 
+  Book, 
+  User, 
+  CreditCard, 
+  Settings, 
+  Lock, 
+  Mail, 
+  Phone, 
+  MessageCircle, 
+  Twitter,
+  ArrowLeft,
+  ChevronDown,
+  ChevronUp,
+  FileText,
+  MessageSquare,
+  HelpCircle,
+  ExternalLink
+} from 'lucide-react';
 import { Card, Button } from '../components/common';
 import './Support.css';
 
@@ -12,12 +30,11 @@ const Support = () => {
   const [expandedFaq, setExpandedFaq] = useState(null);
 
   const categories = [
-    { id: 'all', name: 'All Topics', icon: '📚' },
-    { id: 'account', name: 'Account', icon: '👤' },
-    { id: 'transactions', name: 'Transactions', icon: '💳' },
-    { id: 'payments', name: 'Payments', icon: '💰' },
-    { id: 'technical', name: 'Technical', icon: '⚙️' },
-    { id: 'security', name: 'Security', icon: '🔒' },
+    { id: 'all', name: 'All Topics', icon: HelpCircle },
+    { id: 'account', name: 'Account', icon: User },
+    { id: 'transactions', name: 'Transactions', icon: CreditCard },
+    { id: 'technical', name: 'Technical', icon: Settings },
+    { id: 'security', name: 'Security', icon: Lock },
   ];
 
   const faqs = [
@@ -32,10 +49,10 @@ const Support = () => {
   ];
 
   const contactMethods = [
-    { id: 'email', name: 'Email Support', icon: '📧', value: 'support@zepayra.com', action: 'mailto:support@zepayra.com' },
-    { id: 'phone', name: 'Phone Support', icon: '📞', value: '+234 800 123 4567', action: 'tel:+2348001234567' },
-    { id: 'whatsapp', name: 'WhatsApp', icon: '💬', value: 'Chat with us', action: 'https://wa.me/2348001234567' },
-    { id: 'twitter', name: 'Twitter', icon: '🐦', value: '@ZepayraHQ', action: 'https://twitter.com/ZepayraHQ' },
+    { id: 'email', name: 'Email Support', icon: Mail, value: 'support@zepayra.com', action: 'mailto:support@zepayra.com' },
+    { id: 'phone', name: 'Phone Support', icon: Phone, value: '+234 800 123 4567', action: 'tel:+2348001234567' },
+    { id: 'whatsapp', name: 'WhatsApp', icon: MessageCircle, value: 'Chat with us', action: 'https://wa.me/2348001234567' },
+    { id: 'twitter', name: 'Twitter', icon: Twitter, value: '@ZepayraHQ', action: 'https://twitter.com/ZepayraHQ' },
   ];
 
   const filteredFaqs = faqs.filter(faq => {
@@ -52,12 +69,11 @@ const Support = () => {
 
   return (
     <div className="support-page">
-      <Header />
-
       <div className="support-container">
         <div className="support-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <h1 className="support-title">Help & Support</h1>
           <p className="support-subtitle">We're here to help you 24/7</p>
@@ -66,7 +82,7 @@ const Support = () => {
         {/* Search */}
         <Card glass padding="medium" className="search-card">
           <div className="search-wrapper">
-            <span className="search-icon">🔍</span>
+            <Search className="search-icon" size={20} />
             <input
               type="text"
               placeholder="Search for help..."
@@ -80,17 +96,17 @@ const Support = () => {
         {/* Quick Actions */}
         <div className="quick-actions">
           <Card glass className="quick-action-card" onClick={() => navigate('/transactions')}>
-            <span className="action-icon">💳</span>
+            <CreditCard className="action-icon" size={24} />
             <h4>Track Transaction</h4>
             <p>Check your transaction status</p>
           </Card>
           <Card glass className="quick-action-card" onClick={() => navigate('/security')}>
-            <span className="action-icon">🔒</span>
+            <Lock className="action-icon" size={24} />
             <h4>Security Settings</h4>
             <p>Manage your account security</p>
           </Card>
           <Card glass className="quick-action-card">
-            <span className="action-icon">📄</span>
+            <FileText className="action-icon" size={24} />
             <h4>Submit Ticket</h4>
             <p>Report an issue</p>
           </Card>
@@ -98,16 +114,19 @@ const Support = () => {
 
         {/* Categories */}
         <div className="categories">
-          {categories.map(category => (
-            <button
-              key={category.id}
-              className={`category-button ${activeCategory === category.id ? 'active' : ''}`}
-              onClick={() => setActiveCategory(category.id)}
-            >
-              <span className="category-icon">{category.icon}</span>
-              <span className="category-name">{category.name}</span>
-            </button>
-          ))}
+          {categories.map(category => {
+            const Icon = category.icon;
+            return (
+              <button
+                key={category.id}
+                className={`category-button ${activeCategory === category.id ? 'active' : ''}`}
+                onClick={() => setActiveCategory(category.id)}
+              >
+                <Icon className="category-icon" size={18} />
+                <span className="category-name">{category.name}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* FAQs */}
@@ -120,7 +139,9 @@ const Support = () => {
                 <div key={faq.id} className={`faq-item ${expandedFaq === faq.id ? 'expanded' : ''}`}>
                   <button className="faq-question" onClick={() => toggleFaq(faq.id)}>
                     <span>{faq.question}</span>
-                    <span className="faq-toggle">{expandedFaq === faq.id ? '−' : '+'}</span>
+                    <span className="faq-toggle">
+                      {expandedFaq === faq.id ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                    </span>
                   </button>
                   {expandedFaq === faq.id && (
                     <div className="faq-answer">
@@ -131,7 +152,7 @@ const Support = () => {
               ))
             ) : (
               <div className="no-results">
-                <span className="no-results-icon">🔍</span>
+                <Search className="no-results-icon" size={48} opacity={0.5} />
                 <p>No FAQs found. Try a different search or category.</p>
               </div>
             )}
@@ -144,34 +165,38 @@ const Support = () => {
           <p className="section-subtitle">Choose your preferred contact method</p>
 
           <div className="contact-methods">
-            {contactMethods.map(method => (
-              <a
-                key={method.id}
-                href={method.action}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-method"
-              >
-                <span className="contact-icon">{method.icon}</span>
-                <div className="contact-info">
-                  <h4>{method.name}</h4>
-                  <p>{method.value}</p>
-                </div>
-                <span className="contact-arrow">→</span>
-              </a>
-            ))}
+            {contactMethods.map(method => {
+              const icons = { email: Mail, phone: Phone, whatsapp: MessageCircle, twitter: Twitter };
+              const Icon = icons[method.id] || HelpCircle;
+              return (
+                <a
+                  key={method.id}
+                  href={method.action}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="contact-method"
+                >
+                  <Icon className="contact-icon" size={24} />
+                  <div className="contact-info">
+                    <h4>{method.name}</h4>
+                    <p>{method.value}</p>
+                  </div>
+                  <ExternalLink className="contact-arrow" size={16} />
+                </a>
+              );
+            })}
           </div>
         </Card>
 
         {/* Live Chat Placeholder */}
         <Card glass padding="large" className="live-chat-card">
           <div className="live-chat-content">
-            <span className="chat-icon">💬</span>
+            <MessageSquare size={32} className="chat-icon" />
             <div>
               <h3>Need Immediate Help?</h3>
               <p>Start a live chat with our support team</p>
             </div>
-            <Button variant="primary" size="medium">
+            <Button primary size="medium">
               Start Chat
             </Button>
           </div>

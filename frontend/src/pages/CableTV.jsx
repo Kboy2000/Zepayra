@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { 
+  ArrowLeft, 
+  Tv, 
+  CreditCard, 
+  Search, 
+  Check, 
+  Info, 
+  ShieldCheck,
+  Zap,
+  Tag
+} from 'lucide-react';
 import { Button, Input, Card } from '../components/common';
 import serviceService from '../services/serviceService';
 import { formatCurrency } from '../utils/formatters';
@@ -149,12 +159,11 @@ const CableTV = () => {
 
   return (
     <div className="cabletv-page">
-      <Header />
-
       <div className="cabletv-container">
         <div className="cabletv-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <h1 className="cabletv-title">Cable TV Subscription</h1>
           <p className="cabletv-subtitle">Renew your cable TV subscription instantly</p>
@@ -197,7 +206,7 @@ const CableTV = () => {
               value={formData.smartCardNumber}
               onChange={handleChange}
               error={errors.smartCardNumber}
-              icon="📺"
+              icon={<Tv size={18} />}
               required
             />
 

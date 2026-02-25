@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import './Card.css';
 
 const Card = ({ 
@@ -7,6 +8,7 @@ const Card = ({
   hover = false,
   className = '',
   onClick,
+  animate = true,
   ...props 
 }) => {
   const getClassName = () => {
@@ -21,13 +23,17 @@ const Card = ({
   };
 
   return (
-    <div 
+    <motion.div 
       className={getClassName()} 
       onClick={onClick}
+      initial={animate ? { opacity: 0, y: 20 } : false}
+      animate={animate ? { opacity: 1, y: 0 } : false}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      whileHover={hover ? { translateY: -4, transition: { duration: 0.2 } } : {}}
       {...props}
     >
       {children}
-    </div>
+    </motion.div>
   );
 };
 

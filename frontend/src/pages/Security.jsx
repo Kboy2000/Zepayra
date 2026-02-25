@@ -1,6 +1,25 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { motion, AnimatePresence } from 'framer-motion';
+ Broadway
+import { 
+  ShieldCheck, 
+  Smartphone, 
+  Bell, 
+  CreditCard, 
+  Key, 
+  Lock, 
+  Monitor, 
+  MapPin, 
+  Check, 
+  X, 
+  ArrowLeft,
+  Fingerprint,
+  ChevronRight,
+  ShieldAlert,
+  History
+} from 'lucide-react';
+ Broadway
 import { Card, Button, PinInput } from '../components/common';
 import './Security.css';
 
@@ -35,14 +54,11 @@ const Security = () => {
   };
 
   const handleRevokeSession = (id) => {
-    if (confirm('Are you sure you want to revoke this session?')) {
-      setSessions(sessions.filter(s => s.id !== id));
-    }
+    setSessions(sessions.filter(s => s.id !== id));
   };
 
   const handleChangePin = () => {
     if (newPin.length === 4) {
-      alert('PIN changed successfully!');
       setShowChangePinModal(false);
       setNewPin('');
     }
@@ -50,213 +66,211 @@ const Security = () => {
 
   const getSecurityLevel = () => {
     const enabledCount = Object.values(settings).filter(Boolean).length;
-    if (enabledCount >= 3) return { level: 'Strong', color: '#10B981', percentage: 100 };
-    if (enabledCount === 2) return { level: 'Medium', color: '#F59E0B', percentage: 66 };
-    return { level: 'Weak', color: '#EF4444', percentage: 33 };
+    if (enabledCount >= 3) return { level: 'Excellent', color: 'var(--color-success)', percentage: 100, icon: ShieldCheck };
+    if (enabledCount === 2) return { level: 'Good', color: 'var(--color-primary)', percentage: 66, icon: ShieldCheck };
+    return { level: 'Action Required', color: 'var(--color-error)', percentage: 33, icon: ShieldAlert };
   };
 
   const securityLevel = getSecurityLevel();
 
-  return (
-    <div className="security-page">
-      <Header />
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
 
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0 }
+  };
+
+  return (
+    <motion.div 
+      className="security-page"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
       <div className="security-container">
-        <div className="security-header">
-          <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+        <header className="security-header">
+          <button className="back-button" onClick={() => navigate(-1)}>
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <h1 className="security-title">Security Center</h1>
-          <p className="security-subtitle">Protect your account and transactions</p>
-        </div>
+          <p className="security-subtitle">Real-time protection for your Zepayra account</p>
+        </header>
 
         {/* Security Level */}
-        <Card glass padding="large" className="security-level-card">
-          <div className="security-level-header">
-            <div>
-              <h3>Security Level</h3>
-              <p className="security-level-label" style={{ color: securityLevel.color }}>
-                {securityLevel.level}
-              </p>
+        <motion.div variants={itemVariants}>
+          <Card glass className="security-level-card">
+            <div className="security-level-header">
+              <div className="level-info">
+                <h3>Security Score</h3>
+                <div className="level-badge" style={{ backgroundColor: `${securityLevel.color}15`, color: securityLevel.color }}>
+                  <securityLevel.icon size={16} />
+                  <span>{securityLevel.level}</span>
+                </div>
+              </div>
+              <div className="security-percentage">{securityLevel.percentage}%</div>
             </div>
-            <div className="security-icon">🛡️</div>
+            <div className="security-progress-track">
+              <motion.div 
+                className="security-progress-fill" 
+                initial={{ width: 0 }}
+                animate={{ width: `${securityLevel.percentage}%` }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                style={{ backgroundColor: securityLevel.color }}
+              />
+            </div>
+            <p className="security-tip">
+              {securityLevel.percentage < 100 
+                ? "Strengthen your account by enabling more security features below." 
+                : "Your account is fully protected. Great job!"}
+            </p>
+          </Card>
+        </motion.div>
+
+        {/* Security Settings Area */}
+        <section className="security-section">
+          <h3 className="section-title">Protective Measures</h3>
+          <div className="settings-grid">
+            <motion.div variants={itemVariants}>
+              <Card glass className="setting-card">
+                <div className="setting-header">
+                  <div className="icon-box"><Key size={20} /></div>
+                  <label className="premium-toggle">
+                    <input 
+                      type="checkbox" 
+                      checked={settings.twoFactorAuth}
+                      onChange={() => handleToggleSetting('twoFactorAuth')}
+                    />
+                    <span className="toggle-track"></span>
+                  </label>
+                </div>
+                <h4>Two-Factor Auth</h4>
+                <p>Verify logins via email or SMS for maximum safety.</p>
+              </Card>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <Card glass className="setting-card">
+                <div className="setting-header">
+                  <div className="icon-box"><Fingerprint size={20} /></div>
+                  <label className="premium-toggle">
+                    <input 
+                      type="checkbox" 
+                      checked={settings.biometric}
+                      onChange={() => handleToggleSetting('biometric')}
+                    />
+                    <span className="toggle-track"></span>
+                  </label>
+                </div>
+                <h4>Biometrics</h4>
+                <p>Unlock your account instantly using Face ID or Touch ID.</p>
+              </Card>
+            </motion.div>
           </div>
-          <div className="security-progress">
-            <div 
-              className="security-progress-bar" 
-              style={{ width: `${securityLevel.percentage}%`, backgroundColor: securityLevel.color }}
-            ></div>
-          </div>
-          <p className="security-tip">Enable more security features to strengthen your account</p>
-        </Card>
-
-        {/* Security Settings */}
-        <Card glass padding="large" className="security-settings-card">
-          <h3 className="section-title">Security Settings</h3>
-
-          <div className="settings-list">
-            <div className="setting-item">
-              <div className="setting-info">
-                <span className="setting-icon">🔐</span>
-                <div>
-                  <h4>Two-Factor Authentication</h4>
-                  <p>Add an extra layer of security to your account</p>
-                </div>
-              </div>
-              <label className="toggle-switch">
-                <input 
-                  type="checkbox" 
-                  checked={settings.twoFactorAuth}
-                  onChange={() => handleToggleSetting('twoFactorAuth')}
-                />
-                <span className="toggle-slider"></span>
-              </label>
-            </div>
-
-            <div className="setting-item">
-              <div className="setting-info">
-                <span className="setting-icon">👆</span>
-                <div>
-                  <h4>Biometric Authentication</h4>
-                  <p>Use fingerprint or face ID to login</p>
-                </div>
-              </div>
-              <label className="toggle-switch">
-                <input 
-                  type="checkbox" 
-                  checked={settings.biometric}
-                  onChange={() => handleToggleSetting('biometric')}
-                />
-                <span className="toggle-slider"></span>
-              </label>
-            </div>
-
-            <div className="setting-item">
-              <div className="setting-info">
-                <span className="setting-icon">🔔</span>
-                <div>
-                  <h4>Login Alerts</h4>
-                  <p>Get notified of new login attempts</p>
-                </div>
-              </div>
-              <label className="toggle-switch">
-                <input 
-                  type="checkbox" 
-                  checked={settings.loginAlerts}
-                  onChange={() => handleToggleSetting('loginAlerts')}
-                />
-                <span className="toggle-slider"></span>
-              </label>
-            </div>
-
-            <div className="setting-item">
-              <div className="setting-info">
-                <span className="setting-icon">💳</span>
-                <div>
-                  <h4>Transaction Alerts</h4>
-                  <p>Receive alerts for all transactions</p>
-                </div>
-              </div>
-              <label className="toggle-switch">
-                <input 
-                  type="checkbox" 
-                  checked={settings.transactionAlerts}
-                  onChange={() => handleToggleSetting('transactionAlerts')}
-                />
-                <span className="toggle-slider"></span>
-              </label>
-            </div>
-          </div>
-        </Card>
-
-        {/* Quick Actions */}
-        <div className="security-actions">
-          <Button variant="primary" size="medium" fullWidth onClick={() => setShowChangePinModal(true)}>
-            🔑 Change Transaction PIN
-          </Button>
-          <Button variant="secondary" size="medium" fullWidth>
-            🔒 Change Password
-          </Button>
-        </div>
+        </section>
 
         {/* Active Sessions */}
-        <Card glass padding="large" className="sessions-card">
-          <h3 className="section-title">Active Sessions</h3>
-          <p className="section-subtitle">Manage devices with access to your account</p>
-
+        <motion.section variants={itemVariants} className="security-section">
+          <div className="section-header-flex">
+            <h3 className="section-title">Managed Devices</h3>
+            <span className="count-badge">{sessions.length} active</span>
+          </div>
           <div className="sessions-list">
             {sessions.map(session => (
-              <div key={session.id} className="session-item">
-                <div className="session-icon">
-                  {session.device.includes('iPhone') ? '📱' : '💻'}
+              <Card key={session.id} className="session-item-card" glass>
+                <div className="session-icon-box">
+                  {session.device.includes('iPhone') ? <Smartphone size={20} /> : <Monitor size={20} />}
                 </div>
-                <div className="session-info">
-                  <h4>{session.device}</h4>
-                  <p>{session.location}</p>
-                  <span className="session-time">Last active: {new Date(session.lastActive).toLocaleString()}</span>
+                <div className="session-details">
+                  <div className="device-name">
+                    {session.device}
+                    {session.isCurrent && <span className="current-label">Current</span>}
+                  </div>
+                  <div className="device-meta">
+                    <span>{session.location}</span>
+                    <span className="dot"></span>
+                    <span>{session.ip}</span>
+                  </div>
                 </div>
-                {session.isCurrent ? (
-                  <span className="current-badge">Current</span>
-                ) : (
-                  <button className="revoke-button" onClick={() => handleRevokeSession(session.id)}>
+                {!session.isCurrent && (
+                  <button className="text-action-btn" onClick={() => handleRevokeSession(session.id)}>
                     Revoke
                   </button>
                 )}
-              </div>
+              </Card>
             ))}
           </div>
-        </Card>
+        </motion.section>
 
         {/* Login History */}
-        <Card glass padding="large" className="history-card">
-          <h3 className="section-title">Login History</h3>
-
-          <div className="history-list">
-            {loginHistory.map(login => (
-              <div key={login.id} className="history-item">
-                <div className="history-icon">
-                  {login.status === 'successful' ? '✅' : '❌'}
-                </div>
-                <div className="history-info">
-                  <h4>{login.device}</h4>
-                  <p>{login.location}</p>
-                  <span className="history-time">{new Date(login.time).toLocaleString()}</span>
-                </div>
-                <span className={`status-badge ${login.status}`}>
-                  {login.status}
-                </span>
-              </div>
-            ))}
+        <motion.section variants={itemVariants} className="security-section">
+          <div className="section-header-flex">
+            <h3 className="section-title">Login Activity</h3>
+            <Button variant="ghost" size="sm">View All <ChevronRight size={14} /></Button>
           </div>
-        </Card>
+          <Card glass className="history-table-card">
+            <div className="history-list">
+              {loginHistory.map(login => (
+                <div key={login.id} className="history-row">
+                  <div className={`status-dot ${login.status}`}></div>
+                  <div className="history-main">
+                    <span className="history-device">{login.device}</span>
+                    <span className="history-time">{new Date(login.time).toLocaleDateString()}</span>
+                  </div>
+                  <span className="history-loc">{login.location}</span>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </motion.section>
 
-        {/* Change PIN Modal */}
-        {showChangePinModal && (
-          <div className="pin-modal-overlay" onClick={() => setShowChangePinModal(false)}>
-            <Card glass padding="large" className="pin-modal" onClick={(e) => e.stopPropagation()}>
-              <h3 className="modal-title">Change Transaction PIN</h3>
-              <p className="modal-subtitle">Enter your new 4-digit PIN</p>
-
-              <PinInput
-                length={4}
-                onComplete={(pin) => setNewPin(pin)}
-                onChange={(pin) => setNewPin(pin)}
-              />
-
-              <div className="modal-actions">
-                <Button variant="primary" size="medium" fullWidth onClick={handleChangePin} disabled={newPin.length !== 4}>
-                  Change PIN
-                </Button>
-                <button className="cancel-button" onClick={() => setShowChangePinModal(false)}>
-                  Cancel
-                </button>
-              </div>
-            </Card>
-          </div>
-        )}
+        <div className="bottom-actions">
+           <Button variant="secondary" fullWidth onClick={() => navigate('/support')}>
+              <ShieldAlert size={18} /> Report a security concern
+           </Button>
+        </div>
       </div>
-    </div>
+
+      <AnimatePresence>
+        {showChangePinModal && (
+          <motion.div 
+            className="premium-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowChangePinModal(false)}
+          >
+             <motion.div 
+               className="premium-modal"
+               initial={{ scale: 0.9, y: 20 }}
+               animate={{ scale: 1, y: 0 }}
+               exit={{ scale: 0.9, y: 20 }}
+               onClick={(e) => e.stopPropagation()}
+             >
+                <h3>Update Security PIN</h3>
+                <p>Protect your transactions with a new 4-digit code.</p>
+                <div className="pin-wrapper">
+                  <PinInput length={4} onComplete={setNewPin} />
+                </div>
+                <div className="modal-footer">
+                  <Button variant="ghost" onClick={() => setShowChangePinModal(false)}>Cancel</Button>
+                  <Button onClick={handleChangePin} disabled={newPin.length !== 4}>Update PIN</Button>
+                </div>
+             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 
 export default Security;
+ Broadway

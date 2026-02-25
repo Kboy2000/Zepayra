@@ -1,6 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { 
+  Users, 
+  Share2, 
+  Copy, 
+  Check, 
+  QrCode, 
+  Trophy, 
+  Clock, 
+  TrendingUp, 
+  Wallet,
+  ArrowLeft,
+  Gift,
+  ExternalLink,
+  MessageCircle,
+  Twitter,
+  Facebook
+} from 'lucide-react';
 import { Card, Button } from '../components/common';
 import { useAuth } from '../context/AuthContext';
 import { formatCurrency, copyToClipboard } from '../utils/formatters';
@@ -108,12 +124,13 @@ const Referrals = () => {
 
   return (
     <div className="referrals-page">
-      <Header />
+      
 
       <div className="referrals-container">
         <div className="referrals-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <h1 className="referrals-title">Referral Program</h1>
           <p className="referrals-subtitle">Invite friends and earn rewards together!</p>
@@ -122,28 +139,36 @@ const Referrals = () => {
         {/* Referral Stats */}
         <div className="referral-stats">
           <Card glass className="stat-card primary">
-            <div className="stat-icon">💰</div>
+            <div className="stat-icon">
+              <TrendingUp size={24} />
+            </div>
             <div className="stat-content">
               <span className="stat-label">Total Earnings</span>
               <span className="stat-value">{formatCurrency(stats.totalEarnings)}</span>
             </div>
           </Card>
           <Card glass className="stat-card">
-            <div className="stat-icon">✅</div>
+            <div className="stat-icon" style={{ color: '#10B981' }}>
+              <Check size={24} />
+            </div>
             <div className="stat-content">
               <span className="stat-label">Successful</span>
               <span className="stat-value">{stats.successfulReferrals}</span>
             </div>
           </Card>
           <Card glass className="stat-card">
-            <div className="stat-icon">⏳</div>
+            <div className="stat-icon" style={{ color: '#F59E0B' }}>
+              <Clock size={24} />
+            </div>
             <div className="stat-content">
               <span className="stat-label">Pending</span>
               <span className="stat-value">{stats.pendingReferrals}</span>
             </div>
           </Card>
           <Card glass className="stat-card">
-            <div className="stat-icon">💵</div>
+            <div className="stat-icon" style={{ color: 'var(--color-primary)' }}>
+              <Wallet size={24} />
+            </div>
             <div className="stat-content">
               <span className="stat-label">Available</span>
               <span className="stat-value">{formatCurrency(stats.availableBalance)}</span>
@@ -161,8 +186,9 @@ const Referrals = () => {
               <button 
                 className="copy-icon-button"
                 onClick={() => handleCopy(referralCode, 'code')}
+                aria-label="Copy Code"
               >
-                {copySuccess === 'code' ? '✓' : '📋'}
+                {copySuccess === 'code' ? <Check size={20} color="#10B981" /> : <Copy size={20} />}
               </button>
             </div>
           </div>
@@ -178,25 +204,35 @@ const Referrals = () => {
               className="copy-button"
               onClick={() => handleCopy(referralLink, 'link')}
             >
-              {copySuccess === 'link' ? '✓ Copied' : 'Copy Link'}
+              {copySuccess === 'link' ? (
+                <>
+                  <Check size={16} />
+                  <span>Copied</span>
+                </>
+              ) : (
+                <>
+                  <Copy size={16} />
+                  <span>Copy Link</span>
+                </>
+              )}
             </button>
           </div>
 
           <div className="share-buttons">
             <button className="share-button whatsapp" onClick={() => handleShare('whatsapp')}>
-              <span className="share-icon">💬</span>
+              <span className="share-icon"><MessageCircle size={20} /></span>
               WhatsApp
             </button>
             <button className="share-button twitter" onClick={() => handleShare('twitter')}>
-              <span className="share-icon">🐦</span>
+              <span className="share-icon"><Twitter size={20} /></span>
               Twitter
             </button>
             <button className="share-button facebook" onClick={() => handleShare('facebook')}>
-              <span className="share-icon">📘</span>
+              <span className="share-icon"><Facebook size={20} /></span>
               Facebook
             </button>
             <button className="share-button qr" onClick={() => setShowQRCode(!showQRCode)}>
-              <span className="share-icon">📱</span>
+              <span className="share-icon"><QrCode size={20} /></span>
               QR Code
             </button>
           </div>
@@ -204,8 +240,8 @@ const Referrals = () => {
           {showQRCode && (
             <div className="qr-code-container">
               <div className="qr-placeholder">
-                <p>QR Code for: {referralLink}</p>
-                <p className="qr-note">Scan to register with your referral code</p>
+                <QrCode size={120} strokeWidth={1} />
+                <p>Scan to register with your referral code</p>
               </div>
             </div>
           )}
@@ -220,7 +256,7 @@ const Referrals = () => {
             {bonusTiers.map((tier, index) => (
               <div key={index} className={`tier-card ${tier.unlocked ? 'unlocked' : 'locked'}`}>
                 <div className="tier-icon">
-                  {tier.unlocked ? '🎉' : '🔒'}
+                  {tier.unlocked ? <Gift size={24} color="#10B981" /> : <Gift size={24} color="#64748B" opacity={0.5} />}
                 </div>
                 <div className="tier-info">
                   <h4>{tier.referrals} Referrals</h4>
@@ -241,9 +277,9 @@ const Referrals = () => {
             {leaderboard.map((entry) => (
               <div key={entry.rank} className={`leaderboard-entry ${entry.rank <= 3 ? 'top-three' : ''}`}>
                 <div className="rank-badge">
-                  {entry.rank === 1 && '🥇'}
-                  {entry.rank === 2 && '🥈'}
-                  {entry.rank === 3 && '🥉'}
+                  {entry.rank === 1 && <Trophy size={20} color="#F59E0B" />}
+                  {entry.rank === 2 && <Trophy size={18} color="#94A3B8" />}
+                  {entry.rank === 3 && <Trophy size={16} color="#B45309" />}
                   {entry.rank > 3 && `#${entry.rank}`}
                 </div>
                 <div className="entry-info">
@@ -290,7 +326,7 @@ const Referrals = () => {
         {/* Withdraw Earnings */}
         {stats.availableBalance > 0 && (
           <Button
-            variant="primary"
+            primary
             size="large"
             fullWidth
             onClick={handleWithdrawEarnings}

@@ -1,331 +1,201 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Header } from '../components/layout';
-import { Card, Button } from '../components/common';
+import { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { 
+  ArrowLeft, 
+  Download, 
+  Share2, 
+  CheckCircle2, 
+  Clock, 
+  XCircle,
+  Hash,
+  Calendar,
+  Wallet,
+  FileText,
+  Copy,
+  ExternalLink
+} from 'lucide-react';
+ Broadway
+import * as htmlToImage from 'html-to-image';
 import transactionService from '../services/transactionService';
-import { formatCurrency, formatDateTime, copyToClipboard } from '../utils/formatters';
+import { Card, Button, Skeleton, Toast } from '../components/common';
+import { formatCurrency, formatDate } from '../utils/formatters';
 import './TransactionDetails.css';
 
 const TransactionDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
   const [transaction, setTransaction] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [requerying, setRequerying] = useState(false);
-  const [copySuccess, setCopySuccess] = useState('');
+  const [downloading, setDownloading] = useState(false);
+  const [toast, setToast] = useState(null);
+  const receiptRef = useRef(null);
 
   useEffect(() => {
-    fetchTransactionDetails();
+    const fetchTransaction = async () => {
+      try {
+        const response = await transactionService.getTransactionById(id);
+        if (response.success) {
+          setTransaction(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching transaction:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTransaction();
   }, [id]);
 
-  const fetchTransactionDetails = async () => {
+  const handleCopyReference = () => {
+    navigator.clipboard.writeText(transaction.reference);
+    setToast({ message: 'Reference copied to clipboard!', type: 'success' });
+  };
+
+  const handleDownloadReceipt = async () => {
+    if (!receiptRef.current) return;
+    
+    setDownloading(true);
     try {
-      setLoading(true);
-      const response = await transactionService.getTransactionById(id);
-      setTransaction(response.transaction || response);
+      const dataUrl = await htmlToImage.toPng(receiptRef.current, {
+        quality: 1,
+        backgroundColor: 'var(--bg-primary)',
+        style: {
+          borderRadius: '0px'
+        }
+      });
+      
+      const link = document.createElement('a');
+      link.download = `zepayra-receipt-${transaction.reference}.png`;
+      link.href = dataUrl;
+      link.click();
+      
+      setToast({ message: 'Receipt downloaded successfully!', type: 'success' });
     } catch (error) {
-      console.error('Error fetching transaction details:', error);
+      console.error('Error downloading receipt:', error);
+      setToast({ message: 'Failed to download receipt', type: 'error' });
     } finally {
-      setLoading(false);
+      setDownloading(false);
     }
   };
 
-  const handleRequery = async () => {
-    try {
-      setRequerying(true);
-      await transactionService.requeryTransaction(id);
-      await fetchTransactionDetails();
-      alert('Transaction status updated successfully!');
-    } catch (error) {
-      console.error('Error requerying transaction:', error);
-      alert('Failed to requery transaction. Please try again.');
-    } finally {
-      setRequerying(false);
+  if (loading) return <div className="details-loading"><Skeleton type="card" count={3} /></div>;
+  if (!transaction) return <div className="details-not-found">Transaction not found</div>;
+
+  const getStatusIcon = () => {
+    switch (transaction.status) {
+      case 'success': return <CheckCircle2 className="status-icon success" size={48} />;
+      case 'pending': return <Clock className="status-icon pending" size={48} />;
+      default: return <XCircle className="status-icon failed" size={48} />;
     }
   };
-
-  const handleCopy = async (text, label) => {
-    const success = await copyToClipboard(text);
-    if (success) {
-      setCopySuccess(label);
-      setTimeout(() => setCopySuccess(''), 2000);
-    }
-  };
-
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'Transaction Receipt',
-        text: `Transaction ${transaction.reference} - ${formatCurrency(transaction.amount)}`,
-      }).catch(err => console.log('Error sharing:', err));
-    } else {
-      alert('Sharing not supported on this device');
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'successful':
-        return '#10B981';
-      case 'pending':
-        return '#F59E0B';
-      case 'failed':
-        return '#EF4444';
-      default:
-        return '#64748B';
-    }
-  };
-
-  const getServiceIcon = (serviceType) => {
-    switch (serviceType) {
-      case 'airtime':
-        return '📞';
-      case 'data':
-        return '📡';
-      case 'electricity':
-        return '⚡';
-      case 'tv':
-        return '📺';
-      default:
-        return '💳';
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="transaction-details-page">
-        <Header />
-        <div className="transaction-details-loading">
-          <div className="spinner"></div>
-          <p>Loading transaction details...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!transaction) {
-    return (
-      <div className="transaction-details-page">
-        <Header />
-        <div className="transaction-details-container">
-          <Card glass padding="large" className="error-state">
-            <span className="error-icon">❌</span>
-            <h3>Transaction not found</h3>
-            <p>The transaction you're looking for doesn't exist.</p>
-            <Button onClick={() => navigate('/transactions')}>
-              Back to Transactions
-            </Button>
-          </Card>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="transaction-details-page">
-      <Header />
-
-      <div className="transaction-details-container">
-        <div className="transaction-details-header">
-          <button className="back-button" onClick={() => navigate('/transactions')}>
-            ← Back to Transactions
-          </button>
+    <motion.div 
+      className="transaction-details-container"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <header className="details-header">
+        <button className="back-btn" onClick={() => navigate(-1)}>
+          <ArrowLeft size={20} />
+          <span>Back</span>
+        </button>
+        <h1>Receipt</h1>
+        <div className="header-actions">
+          <Button variant="ghost" size="sm" onClick={() => {/* Share logic */}}>
+            <Share2 size={18} />
+          </Button>
         </div>
+      </header>
 
-        {/* Status Card */}
-        <Card glass className="status-card">
-          <div className="status-icon-wrapper" style={{ '--status-color': getStatusColor(transaction.status) }}>
-            <span className="service-icon">{getServiceIcon(transaction.serviceType)}</span>
-          </div>
-          <h2 className="transaction-amount">{formatCurrency(transaction.amount)}</h2>
-          <div className="status-badge" style={{ backgroundColor: getStatusColor(transaction.status) }}>
-            {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
-          </div>
-          <p className="transaction-date">{formatDateTime(transaction.createdAt)}</p>
-        </Card>
-
-        {/* Transaction Details */}
-        <Card glass padding="large" className="details-card">
-          <h3 className="section-title">Transaction Details</h3>
-          
-          <div className="detail-row">
-            <span className="detail-label">Service Type</span>
-            <span className="detail-value">
-              {transaction.serviceType.charAt(0).toUpperCase() + transaction.serviceType.slice(1)}
-            </span>
-          </div>
-
-          <div className="detail-row">
-            <span className="detail-label">Reference</span>
-            <div className="detail-value-with-copy">
-              <span className="detail-value">{transaction.reference}</span>
-              <button 
-                className="copy-button"
-                onClick={() => handleCopy(transaction.reference, 'reference')}
-              >
-                {copySuccess === 'reference' ? '✓' : '📋'}
-              </button>
+      <div className="receipt-wrapper">
+        <div className="receipt-card-container" ref={receiptRef}>
+          <Card glass className="receipt-card">
+            <div className="receipt-header">
+              <div className="brand-logo">ZEPAYRA</div>
+              {getStatusIcon()}
+              <h2 className="receipt-amount">{formatCurrency(transaction.amount)}</h2>
+              <span className={`receipt-status-badge ${transaction.status}`}>
+                {transaction.status.toUpperCase()}
+              </span>
             </div>
-          </div>
 
-          {transaction.requestId && (
-            <div className="detail-row">
-              <span className="detail-label">Request ID</span>
-              <div className="detail-value-with-copy">
-                <span className="detail-value">{transaction.requestId}</span>
-                <button 
-                  className="copy-button"
-                  onClick={() => handleCopy(transaction.requestId, 'requestId')}
-                >
-                  {copySuccess === 'requestId' ? '✓' : '📋'}
-                </button>
+            <div className="receipt-divider"></div>
+
+            <div className="receipt-details">
+              <div className="detail-row">
+                <div className="detail-item">
+                  <span className="detail-label">Service</span>
+                  <span className="detail-value">{transaction.serviceType}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Date</span>
+                  <span className="detail-value">{formatDate(transaction.createdAt)}</span>
+                </div>
+              </div>
+
+              <div className="detail-row">
+                <div className="detail-item">
+                  <span className="detail-label">Reference</span>
+                  <div className="value-with-action" onClick={handleCopyReference}>
+                    <span className="detail-value reference">{transaction.reference}</span>
+                    <Copy size={14} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="detail-row">
+                <div className="detail-item">
+                  <span className="detail-label">Payment Method</span>
+                  <span className="detail-value">Wallet</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Fee</span>
+                  <span className="detail-value">{formatCurrency(transaction.fee || 0)}</span>
+                </div>
+              </div>
+
+              {transaction.metadata && Object.keys(transaction.metadata).map(key => (
+                <div className="detail-row" key={key}>
+                  <div className="detail-item">
+                    <span className="detail-label">{key.charAt(0).toUpperCase() + key.slice(1)}</span>
+                    <span className="detail-value">{transaction.metadata[key]}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="receipt-footer">
+              <p>Thank you for using Zepayra</p>
+              <div className="support-link">
+                <ExternalLink size={12} />
+                <span>Support help.zepayra.com</span>
               </div>
             </div>
-          )}
-
-          {transaction.recipient && (
-            <div className="detail-row">
-              <span className="detail-label">Recipient</span>
-              <span className="detail-value">{transaction.recipient}</span>
-            </div>
-          )}
-
-          {transaction.description && (
-            <div className="detail-row">
-              <span className="detail-label">Description</span>
-              <span className="detail-value">{transaction.description}</span>
-            </div>
-          )}
-
-          <div className="detail-row">
-            <span className="detail-label">Amount</span>
-            <span className="detail-value amount">{formatCurrency(transaction.amount)}</span>
-          </div>
-
-          {transaction.fee && (
-            <div className="detail-row">
-              <span className="detail-label">Fee</span>
-              <span className="detail-value">{formatCurrency(transaction.fee)}</span>
-            </div>
-          )}
-
-          {transaction.balanceBefore !== undefined && (
-            <div className="detail-row">
-              <span className="detail-label">Balance Before</span>
-              <span className="detail-value">{formatCurrency(transaction.balanceBefore)}</span>
-            </div>
-          )}
-
-          {transaction.balanceAfter !== undefined && (
-            <div className="detail-row">
-              <span className="detail-label">Balance After</span>
-              <span className="detail-value">{formatCurrency(transaction.balanceAfter)}</span>
-            </div>
-          )}
-        </Card>
-
-        {/* Provider Details */}
-        {transaction.providerResponse && (
-          <Card glass padding="large" className="details-card">
-            <h3 className="section-title">Provider Information</h3>
-            
-            {transaction.providerResponse.content && (
-              <div className="provider-content">
-                <p>{transaction.providerResponse.content.transactions?.product_name}</p>
-                {transaction.providerResponse.content.transactions?.unique_element && (
-                  <p className="unique-element">
-                    Token: {transaction.providerResponse.content.transactions.unique_element}
-                  </p>
-                )}
-              </div>
-            )}
           </Card>
-        )}
-
-        {/* Actions */}
-        <div className="transaction-actions">
-          {transaction.status === 'pending' && (
-            <Button
-              variant="primary"
-              size="large"
-              fullWidth
-              loading={requerying}
-              onClick={handleRequery}
-            >
-              {requerying ? 'Checking Status...' : 'Requery Transaction'}
-            </Button>
-          )}
-          
-          <Button
-            variant="secondary"
-            size="large"
-            fullWidth
-            onClick={handleShare}
-          >
-            📤 Share Receipt
-          </Button>
-
-          <Button
-            variant="secondary"
-            size="large"
-            fullWidth
-            onClick={() => navigate('/support')}
-          >
-            🆘 Report Issue
-          </Button>
         </div>
 
-        {/* Timeline */}
-        <Card glass padding="large" className="timeline-card">
-          <h3 className="section-title">Transaction Timeline</h3>
-          
-          <div className="timeline">
-            <div className="timeline-item completed">
-              <div className="timeline-marker"></div>
-              <div className="timeline-content">
-                <h4>Transaction Initiated</h4>
-                <p>{formatDateTime(transaction.createdAt)}</p>
-              </div>
-            </div>
-
-            {transaction.status === 'successful' && (
-              <div className="timeline-item completed">
-                <div className="timeline-marker"></div>
-                <div className="timeline-content">
-                  <h4>Transaction Completed</h4>
-                  <p>{formatDateTime(transaction.updatedAt)}</p>
-                </div>
-              </div>
-            )}
-
-            {transaction.status === 'failed' && (
-              <div className="timeline-item failed">
-                <div className="timeline-marker"></div>
-                <div className="timeline-content">
-                  <h4>Transaction Failed</h4>
-                  <p>{formatDateTime(transaction.updatedAt)}</p>
-                  {transaction.errorMessage && (
-                    <p className="error-message">{transaction.errorMessage}</p>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {transaction.status === 'pending' && (
-              <div className="timeline-item pending">
-                <div className="timeline-marker pulsing"></div>
-                <div className="timeline-content">
-                  <h4>Processing...</h4>
-                  <p>Your transaction is being processed</p>
-                </div>
-              </div>
-            )}
-          </div>
-        </Card>
+        <div className="receipt-actions">
+          <Button 
+            className="download-btn" 
+            onClick={handleDownloadReceipt}
+            loading={downloading}
+          >
+            <Download size={20} /> Download Receipt
+          </Button>
+          <Button variant="secondary" className="support-btn" onClick={() => navigate('/support')}>
+            <MessageSquare size={20} /> Need Help?
+          </Button>
+        </div>
       </div>
-    </div>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+    </motion.div>
   );
 };
 
 export default TransactionDetails;
+ Broadway

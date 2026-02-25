@@ -1,6 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { 
+  Building2, 
+  CreditCard, 
+  Smartphone, 
+  Check, 
+  Copy, 
+  Info, 
+  Lock, 
+  Zap, 
+  ArrowLeft,
+  Wallet,
+  ExternalLink
+} from 'lucide-react';
 import { Card, Button } from '../components/common';
 import walletService from '../services/walletService';
 import { formatCurrency, copyToClipboard } from '../utils/formatters';
@@ -21,7 +33,7 @@ const FundWallet = () => {
     {
       id: 'bank-transfer',
       name: 'Bank Transfer',
-      icon: '🏦',
+      icon: Building2,
       description: 'Transfer to your dedicated account',
       recommended: true,
       processingTime: 'Instant',
@@ -30,7 +42,7 @@ const FundWallet = () => {
     {
       id: 'card',
       name: 'Debit/Credit Card',
-      icon: '💳',
+      icon: CreditCard,
       description: 'Pay with your card',
       recommended: false,
       processingTime: 'Instant',
@@ -39,7 +51,7 @@ const FundWallet = () => {
     {
       id: 'ussd',
       name: 'USSD',
-      icon: '📱',
+      icon: Smartphone,
       description: 'Dial code to fund',
       recommended: false,
       processingTime: 'Instant',
@@ -142,12 +154,11 @@ const FundWallet = () => {
 
   return (
     <div className="fund-wallet-page">
-      <Header />
-
       <div className="fund-wallet-container">
         <div className="fund-wallet-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <h1 className="fund-wallet-title">Fund Wallet</h1>
           <p className="fund-wallet-subtitle">Add money to your ZEPAYRA wallet</p>
@@ -155,8 +166,13 @@ const FundWallet = () => {
 
         {/* Current Balance */}
         <Card glass className="balance-display">
-          <span className="balance-label">Current Balance</span>
-          <span className="balance-amount">{formatCurrency(balance)}</span>
+          <div className="balance-icon">
+            <Wallet size={24} />
+          </div>
+          <div className="balance-info">
+            <span className="balance-label">Current Balance</span>
+            <span className="balance-amount">{formatCurrency(balance)}</span>
+          </div>
         </Card>
 
         {/* Amount Selection */}
@@ -195,26 +211,29 @@ const FundWallet = () => {
           <h3 className="section-title">Select Payment Method</h3>
           
           <div className="payment-methods">
-            {fundingMethods.map((method) => (
-              <button
-                key={method.id}
-                className={`payment-method-card ${selectedMethod === method.id ? 'selected' : ''}`}
-                onClick={() => setSelectedMethod(method.id)}
-              >
-                {method.recommended && (
-                  <span className="recommended-badge">Recommended</span>
-                )}
-                <div className="method-icon">{method.icon}</div>
-                <div className="method-details">
-                  <h4>{method.name}</h4>
-                  <p>{method.description}</p>
-                  <div className="method-info">
-                    <span>⚡ {method.processingTime}</span>
-                    <span>💰 {method.fee}</span>
+            {fundingMethods.map((method) => {
+              const Icon = method.icon;
+              return (
+                <button
+                  key={method.id}
+                  className={`payment-method-card ${selectedMethod === method.id ? 'selected' : ''}`}
+                  onClick={() => setSelectedMethod(method.id)}
+                >
+                  {method.recommended && (
+                    <span className="recommended-badge">Recommended</span>
+                  )}
+                  <div className="method-icon"><Icon size={24} /></div>
+                  <div className="method-details">
+                    <h4>{method.name}</h4>
+                    <p>{method.description}</p>
+                    <div className="method-info">
+                      <span><Zap size={14} /> {method.processingTime}</span>
+                      <span><Wallet size={14} /> {method.fee}</span>
+                    </div>
                   </div>
-                </div>
-              </button>
-            ))}
+                </button>
+              );
+            })}
           </div>
         </Card>
 
@@ -232,7 +251,17 @@ const FundWallet = () => {
                     className="copy-btn"
                     onClick={() => handleCopy(virtualAccount.accountNumber, 'account')}
                   >
-                    {copySuccess === 'account' ? '✓ Copied' : '📋 Copy'}
+                    {copySuccess === 'account' ? (
+                      <>
+                        <Check size={14} />
+                        <span>Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={14} />
+                        <span>Copy</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </div>
@@ -249,7 +278,7 @@ const FundWallet = () => {
             </div>
 
             <div className="info-box">
-              <span className="info-icon">ℹ️</span>
+              <Info size={20} className="info-icon" />
               <p>Transfer any amount to this account and your wallet will be credited instantly. This account is unique to you.</p>
             </div>
           </Card>
@@ -277,7 +306,7 @@ const FundWallet = () => {
             )}
 
             <Button
-              variant="primary"
+              primary
               size="large"
               fullWidth
               loading={loading}
@@ -288,7 +317,7 @@ const FundWallet = () => {
             </Button>
 
             <div className="info-box">
-              <span className="info-icon">🔒</span>
+              <Lock size={20} className="info-icon" />
               <p>Your payment is secured with industry-standard encryption</p>
             </div>
           </Card>
@@ -312,7 +341,7 @@ const FundWallet = () => {
                       className="copy-btn small"
                       onClick={() => handleCopy(ussd.code, `ussd-${index}`)}
                     >
-                      {copySuccess === `ussd-${index}` ? '✓' : '📋'}
+                      {copySuccess === `ussd-${index}` ? <Check size={14} /> : <Copy size={14} />}
                     </button>
                   </div>
                 </div>
@@ -320,7 +349,7 @@ const FundWallet = () => {
             </div>
 
             <div className="info-box">
-              <span className="info-icon">ℹ️</span>
+              <Info size={20} className="info-icon" />
               <p>Replace "Amount" with the amount you want to fund (e.g., *737*50*5000*1234567890#)</p>
             </div>
           </Card>

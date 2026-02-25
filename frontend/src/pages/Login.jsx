@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Mail, Lock, Eye, EyeOff, LogIn, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Card, Button, Input } from '../components/common';
 import { useAuth } from '../context/AuthContext';
-import { Button, Input, Card } from '../components/common';
 import { isValidEmail } from '../utils/validators';
-import './Login.css';
+import './Auth.css';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -86,26 +87,26 @@ const Login = () => {
             )}
 
             <Input
+              label="Email Address"
               type="email"
               name="email"
-              label="Email Address"
               placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
               error={errors.email}
-              icon="📧"
+              icon={<Mail size={18} />}
               required
             />
 
             <Input
+              label="Password"
               type="password"
               name="password"
-              label="Password"
               placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
               error={errors.password}
-              icon="🔒"
+              icon={<Lock size={18} />}
               required
             />
 

@@ -1,6 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { 
+  ArrowLeft, 
+  Zap, 
+  CreditCard, 
+  FileText, 
+  Check, 
+  Search,
+  Info,
+  Building2
+} from 'lucide-react';
 import { Button, Input, Card } from '../components/common';
 import serviceService from '../services/serviceService';
 import { formatCurrency } from '../utils/formatters';
@@ -115,12 +124,11 @@ const Electricity = () => {
 
   return (
     <div className="electricity-page">
-      <Header />
-
       <div className="electricity-container">
         <div className="electricity-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <h1 className="electricity-title">Pay Electricity Bill</h1>
           <p className="electricity-subtitle">Quick and easy electricity payments</p>
@@ -149,7 +157,7 @@ const Electricity = () => {
                     {disco.logo ? (
                       <img src={disco.logo} alt={disco.name} className="disco-logo" />
                     ) : (
-                      <span className="disco-icon">{disco.icon}</span>
+                      <span className="disco-icon"><Building2 size={24} /></span>
                     )}
                     <span className="disco-name">{disco.name}</span>
                     <span className="disco-full-name">{disco.fullName}</span>
@@ -168,7 +176,7 @@ const Electricity = () => {
                   className={`meter-type-card ${formData.meterType === 'prepaid' ? 'selected' : ''}`}
                   onClick={() => setFormData({ ...formData, meterType: 'prepaid' })}
                 >
-                  <span className="meter-type-icon">💳</span>
+                  <span className="meter-type-icon"><CreditCard size={20} /></span>
                   <span className="meter-type-name">Prepaid</span>
                 </button>
                 <button
@@ -176,7 +184,7 @@ const Electricity = () => {
                   className={`meter-type-card ${formData.meterType === 'postpaid' ? 'selected' : ''}`}
                   onClick={() => setFormData({ ...formData, meterType: 'postpaid' })}
                 >
-                  <span className="meter-type-icon">📋</span>
+                  <span className="meter-type-icon"><FileText size={20} /></span>
                   <span className="meter-type-name">Postpaid</span>
                 </button>
               </div>
@@ -191,7 +199,7 @@ const Electricity = () => {
               value={formData.meterNumber}
               onChange={handleChange}
               error={errors.meterNumber}
-              icon="⚡"
+              icon={<Zap size={18} />}
               required
             />
 
@@ -221,7 +229,7 @@ const Electricity = () => {
               value={formData.amount}
               onChange={handleChange}
               error={errors.amount}
-              icon="₦"
+              icon={<Wallet size={18} />}
               min="1000"
               max="1000000"
               required

@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../components/layout';
+import { 
+  ArrowLeft, 
+  Smartphone, 
+  Wifi, 
+  Check, 
+  Search,
+  Zap,
+  Clock,
+  ShieldCheck,
+  CreditCard
+} from 'lucide-react';
 import { Button, Input, Card } from '../components/common';
 import serviceService from '../services/serviceService';
 import { formatCurrency } from '../utils/formatters';
@@ -136,12 +146,11 @@ const Data = () => {
 
   return (
     <div className="data-page">
-      <Header />
-
       <div className="data-container">
         <div className="data-header">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
-            ← Back
+            <ArrowLeft size={18} />
+            <span>Back</span>
           </button>
           <h1 className="data-title">Buy Data</h1>
           <p className="data-subtitle">Affordable data bundles for all networks</p>
@@ -184,7 +193,7 @@ const Data = () => {
               value={formData.phone}
               onChange={handleChange}
               error={errors.phone}
-              icon="📱"
+              icon={<Smartphone size={18} />}
               required
             />
 
