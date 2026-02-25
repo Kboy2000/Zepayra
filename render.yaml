@@ -5,7 +5,10 @@ services:
     dockerContext: ./backend
     dockerfilePath: Dockerfile
     plan: free
+    healthCheckPath: /health
     envVars:
+      - key: PORT
+        value: 5000
       - key: MONGODB_URI
         sync: false
       - key: JWT_SECRET
@@ -16,7 +19,7 @@ services:
         fromService:
           name: zepayra-frontend
           type: web
-          property: host
+          property: url
 
   - type: web
     name: zepayra-frontend
@@ -24,9 +27,10 @@ services:
     dockerContext: ./frontend
     dockerfilePath: Dockerfile
     plan: free
+    healthCheckPath: /
     envVars:
       - key: VITE_API_URL
         fromService:
           name: zepayra-backend
           type: web
-          property: host
+          property: url

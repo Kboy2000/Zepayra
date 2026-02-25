@@ -4,6 +4,10 @@ FROM node:18-alpine AS build
 # Set working directory
 WORKDIR /app
 
+# Accept VITE_API_URL as a build argument
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 # Copy package files
 COPY package*.json ./
 
@@ -12,6 +16,9 @@ RUN npm install
 
 # Copy source code
 COPY . .
+
+# Remove any existing .env files to ensure build-args are used
+RUN rm -f .env .env.local .env.production .env.development
 
 # Build the application
 RUN npm run build
