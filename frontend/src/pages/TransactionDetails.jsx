@@ -15,7 +15,7 @@ import {
   Copy,
   ExternalLink
 } from 'lucide-react';
- Broadway
+
 import * as htmlToImage from 'html-to-image';
 import transactionService from '../services/transactionService';
 import { Card, Button, Skeleton, Toast } from '../components/common';
@@ -198,4 +198,4 @@ const TransactionDetails = () => {
 };
 
 export default TransactionDetails;
- Broadway
+

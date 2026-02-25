@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
- Broadway
+
 import { 
   ShieldCheck, 
   Smartphone, 
@@ -19,7 +19,7 @@ import {
   ShieldAlert,
   History
 } from 'lucide-react';
- Broadway
+
 import { Card, Button, PinInput } from '../components/common';
 import './Security.css';
 
@@ -273,4 +273,4 @@ const Security = () => {
 };
 
 export default Security;
- Broadway
+

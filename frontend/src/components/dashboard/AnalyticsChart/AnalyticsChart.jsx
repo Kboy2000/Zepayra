@@ -70,4 +70,4 @@ const AnalyticsChart = ({ data }) => {
 };
 
 export default AnalyticsChart;
- Broadway
+
