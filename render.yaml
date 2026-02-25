@@ -3,7 +3,7 @@ services:
     name: zepayra-backend
     env: docker
     dockerContext: ./backend
-    dockerfilePath: Dockerfile
+    dockerfilePath: backend/Dockerfile
     plan: free
     healthCheckPath: /health
     envVars:
@@ -25,7 +25,7 @@ services:
     name: zepayra-frontend
     env: docker
     dockerContext: ./frontend
-    dockerfilePath: Dockerfile
+    dockerfilePath: frontend/Dockerfile
     plan: free
     healthCheckPath: /
     envVars:
