@@ -16,7 +16,7 @@
 .support-title {
   font-size: 2rem;
   font-weight: 700;
-  color: white;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -51,14 +51,14 @@
 }
 
 .quick-action-card h4 {
-  color: white;
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
 .quick-action-card p {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
   font-size: 0.85rem;
 }
 
@@ -92,7 +92,7 @@
 .category-button.active {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
   border-color: #6366F1;
-  color: white;
+  color: var(--text-primary);
 }
 
 .category-icon {
@@ -112,12 +112,12 @@
 .section-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: white;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .section-subtitle {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
   font-size: 0.9rem;
   margin-bottom: 1.5rem;
 }
@@ -149,7 +149,7 @@
   padding: 1.25rem;
   background: transparent;
   border: none;
-  color: white;
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 600;
   text-align: left;
@@ -201,7 +201,7 @@
 }
 
 .no-results p {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
 }
 
 /* Contact Card */
@@ -223,7 +223,7 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  color: white;
+  color: var(--text-primary);
   text-decoration: none;
   transition: all 0.3s ease;
 }
@@ -243,14 +243,14 @@
 }
 
 .contact-info h4 {
-  color: white;
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
 }
 
 .contact-info p {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
   font-size: 0.85rem;
 }
 
@@ -280,7 +280,7 @@
 }
 
 .live-chat-content h3 {
-  color: white;
+  color: var(--text-primary);
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.5rem;

@@ -16,7 +16,7 @@
 .referrals-title {
   font-size: 2rem;
   font-weight: 700;
-  color: white;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -46,12 +46,12 @@
 .section-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: white;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .section-subtitle {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
   font-size: 0.9rem;
   margin-bottom: 1.5rem;
 }
@@ -76,7 +76,7 @@
 .code {
   font-size: 2rem;
   font-weight: 700;
-  color: white;
+  color: var(--text-primary);
   letter-spacing: 4px;
   font-family: 'Courier New', monospace;
 }
@@ -86,7 +86,7 @@
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  color: white;
+  color: var(--text-primary);
   font-size: 1.25rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -109,7 +109,7 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  color: white;
+  color: var(--text-primary);
   font-size: 0.9rem;
 }
 
@@ -123,7 +123,7 @@
   background: linear-gradient(135deg, #6366F1, #8B5CF6);
   border: none;
   border-radius: 8px;
-  color: white;
+  color: var(--text-primary);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -151,7 +151,7 @@
   border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.05);
-  color: white;
+  color: var(--text-primary);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -248,7 +248,7 @@
 }
 
 .tier-info h4 {
-  color: white;
+  color: var(--text-primary);
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
@@ -266,7 +266,7 @@
   right: 1rem;
   padding: 0.25rem 0.75rem;
   background: linear-gradient(135deg, #10B981, #059669);
-  color: white;
+  color: var(--text-primary);
   font-size: 0.75rem;
   font-weight: 600;
   border-radius: 12px;
@@ -314,7 +314,7 @@
   font-weight: 700;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
-  color: white;
+  color: var(--text-primary);
 }
 
 .entry-info {
@@ -322,14 +322,14 @@
 }
 
 .entry-info h4 {
-  color: white;
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
 }
 
 .entry-info p {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
   font-size: 0.85rem;
 }
 
@@ -373,7 +373,7 @@
   justify-content: center;
   background: linear-gradient(135deg, #6366F1, #8B5CF6);
   border-radius: 50%;
-  color: white;
+  color: var(--text-primary);
   font-size: 1.25rem;
   font-weight: 700;
 }
@@ -383,20 +383,20 @@
 }
 
 .referral-info h4 {
-  color: white;
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
 }
 
 .referral-info p {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
   font-size: 0.85rem;
   margin-bottom: 0.25rem;
 }
 
 .referral-date {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-tertiary);
   font-size: 0.75rem;
 }
 
@@ -410,7 +410,7 @@
 .status-badge {
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
-  color: white;
+  color: var(--text-primary);
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: capitalize;
@@ -446,14 +446,14 @@
   justify-content: center;
   background: linear-gradient(135deg, #6366F1, #8B5CF6);
   border-radius: 50%;
-  color: white;
+  color: var(--text-primary);
   font-size: 1.25rem;
   font-weight: 700;
   flex-shrink: 0;
 }
 
 .step-content h4 {
-  color: white;
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;

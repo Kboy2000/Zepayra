@@ -8,7 +8,8 @@ import {
   Check, 
   Search,
   Info,
-  Building2
+  Building2,
+  Wallet
 } from 'lucide-react';
 import { Button, Input, Card } from '../components/common';
 import serviceService from '../services/serviceService';

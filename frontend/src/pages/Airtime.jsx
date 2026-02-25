@@ -12,7 +12,8 @@ import {
   Users,
   Briefcase,
   ExternalLink,
-  Contact2
+  Contact2,
+  Wallet
 } from 'lucide-react';
 import { Button, Input, Card } from '../components/common';
 import serviceService from '../services/serviceService';

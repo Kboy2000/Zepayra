@@ -38,7 +38,7 @@
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  color: white;
+  color: var(--text-primary);
   padding: var(--spacing-2xl);
 }
 
@@ -154,7 +154,7 @@
 
 .tip-card.dark {
   background: var(--color-gray-900);
-  color: white;
+  color: var(--text-primary);
 }
 
 .tip-card h3 {

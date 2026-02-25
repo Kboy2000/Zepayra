@@ -124,7 +124,7 @@ const Dashboard = () => {
         <section className="balance-section">
           <BalanceCard 
             balance={balance} 
-            onFund={() => navigate('/fund-wallet')}
+            onAddMoney={() => navigate('/fund-wallet')}
             onWithdraw={() => navigate('/withdraw')}
           />
         </section>

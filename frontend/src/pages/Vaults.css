@@ -38,7 +38,7 @@
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  color: white;
+  color: var(--text-primary);
   padding: var(--spacing-2xl);
   border-radius: var(--radius-lg);
 }
@@ -155,7 +155,7 @@
 
 .tip-card.dark {
   background: var(--color-gray-900);
-  color: white;
+  color: var(--text-primary);
 }
 
 .tip-card h3 {
@@ -239,7 +239,7 @@
   width: 80px;
   height: 80px;
   background: var(--color-primary-light);
-  color: white;
+  color: var(--text-primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -384,19 +384,19 @@
   padding: 40px 24px;
   text-align: center;
   position: relative;
-  color: white;
+  color: var(--text-primary);
 }
 
 .close-btn {
   position: absolute;
   top: 16px;
   right: 16px;
-  color: white;
+  color: var(--text-primary);
   opacity: 0.8;
 }
 
 .header-content h2 {
-  color: white;
+  color: var(--text-primary);
   margin: 12px 0 6px;
 }
 
@@ -468,7 +468,7 @@
   width: 18px;
   left: 3px;
   bottom: 3px;
-  background-color: white;
+  background-color: var(--text-primary);
   transition: .4s;
   border-radius: 50%;
 }

@@ -16,7 +16,7 @@
 .back-button {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
+  color: var(--text-primary);
   padding: 0.5rem 1rem;
   border-radius: 8px;
   cursor: pointer;
@@ -33,7 +33,7 @@
 .transactions-title {
   font-size: 2rem;
   font-weight: 700;
-  color: white;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -81,14 +81,14 @@
 
 .stat-label {
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
   font-weight: 500;
 }
 
 .stat-value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: white;
+  color: var(--text-primary);
 }
 
 /* Filters */
@@ -120,7 +120,7 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  color: white;
+  color: var(--text-primary);
   font-size: 0.9rem;
   transition: all 0.3s ease;
 }
@@ -150,7 +150,7 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  color: white;
+  color: var(--text-primary);
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -164,7 +164,7 @@
 
 .filter-select option {
   background: #1E293B;
-  color: white;
+  color: var(--text-primary);
 }
 
 .amount-range-group {
@@ -180,7 +180,7 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  color: white;
+  color: var(--text-primary);
   font-size: 0.9rem;
   transition: all 0.3s ease;
 }
@@ -197,7 +197,7 @@
 }
 
 .range-separator {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-tertiary);
   font-weight: 600;
 }
 
@@ -206,7 +206,7 @@
   background: linear-gradient(135deg, #6366F1, #8B5CF6);
   border: none;
   border-radius: 8px;
-  color: white;
+  color: var(--text-primary);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -261,12 +261,12 @@
 .empty-state h3 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: white;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .empty-state p {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
   margin-bottom: 1.5rem;
 }
 
