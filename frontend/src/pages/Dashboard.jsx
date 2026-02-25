@@ -39,6 +39,7 @@ import './Dashboard.css';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [balance, setBalance] = useState(0);
   const [transactions, setTransactions] = useState([]);
   const [analytics, setAnalytics] = useState(null);
@@ -109,7 +110,7 @@ const Dashboard = () => {
         <div className="header-top">
           <div className="welcome-text">
             <span>Welcome back,</span>
-            <h1>Dashboard</h1>
+            <h1>{user?.firstName || 'Dashboard'}</h1>
           </div>
           <button className="notification-bell" onClick={() => navigate('/notifications')}>
             <Bell size={20} />
